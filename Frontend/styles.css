@@ -6,6 +6,114 @@ body {
     background-color: #FEFEFE;
 }
 
+/* Navigation Bar Styles */
+.navbar {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+    padding: 1rem 10%;
+    width: 100%;
+    height: 60px;
+    background: #FFFFFF;
+    box-sizing: border-box;
+    position: relative;
+    margin: 0 auto;
+    max-width: 1440px;
+}
+
+.nav-logo {
+    font-weight: bold;
+    font-size: 1.2rem;
+    color: #000000;
+    text-decoration: none;
+}
+
+.nav-links {
+    display: flex;
+    gap: 2rem;
+}
+
+.nav-links a {
+    text-decoration: none;
+    color: #000000;
+    font-size: 0.9rem;
+    position: relative;
+    padding-bottom: 0.25rem;
+}
+
+.nav-links a:hover {
+    color: #377DFF;
+}
+
+.nav-links a::after {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 0;
+    height: 1px;
+    background-color: #377DFF;
+    transition: width 0.3s ease;
+}
+
+.nav-links a:hover::after {
+    width: 100%;
+}
+
+.nav-icons {
+    display: flex;
+    gap: 1.5rem;
+    align-items: center;
+}
+
+.nav-icon-link {
+    display: inline-block;
+    width: 24px;
+    height: 24px;
+    transition: transform 0.3s ease;
+}
+
+.nav-icon-link:hover {
+    transform: scale(1.1);
+}
+
+.nav-icon-link img {
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+}
+
+
+/* Responsive adjustments */
+@media (max-width: 1024px) {
+    .navbar {
+        padding: 1rem 5%;
+    }
+    
+    .nav-links {
+        gap: 1.5rem;
+    }
+}
+
+@media (max-width: 768px) {
+    .navbar {
+        flex-direction: column;
+        height: auto;
+        padding: 1rem;
+    }
+    
+    .nav-links {
+        margin: 1rem 0;
+        flex-wrap: wrap;
+        justify-content: center;
+    }
+    
+    .nav-icons {
+        margin-bottom: 0.5rem;
+    }
+}
+
 /*Seccond Carousel Styles*/
 .carousel {
     display: flex;
