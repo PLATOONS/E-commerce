@@ -19,13 +19,6 @@ body {
     background-color: #FEFEFE;
 }
 
-/*Seccond Carousel Styles*/
-.carousel {
-    display: flex;
-    flex-direction: column;
-    max-width: 100%;
-    margin: 0 15% 1rem 15%;
-}
 
 .section_header {
     /* Navigation Bar Styles */

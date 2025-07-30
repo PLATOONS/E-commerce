@@ -1,13 +1,14 @@
 :root {
-  --section-padding: 2rem;
+  --section-padding: 1rem;
   --card-bg: #f4f5f7;
   --text-color: #1a1a1a;
   --subtext-color: #6e6e73;
-  --gap: 1.5rem;
-  --icon-size: 48px;
+  --gap: 1rem;
+  --icon-size: 40px;
   --font-family: sans-serif;
 }
 
+/* benefit_item styles Mobile First */
 body {
   margin: 0;
   font-family: var(--font-family);
@@ -16,7 +17,7 @@ body {
 
 .features {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  grid-template-columns: repeat(2, 1fr);
   gap: var(--gap);
   padding: var(--section-padding);
 }
@@ -24,7 +25,7 @@ body {
 .feature-card {
   background: var(--card-bg);
   padding: var(--section-padding);
-  text-align: center;
+  text-align: left;
   border-radius: 8px;
 }
 
@@ -36,12 +37,33 @@ body {
 
 .feature-card h3 {
   margin: 0 0 0.5rem;
-  font-size: 1.1rem;
+  font-size: 1rem;
   color: var(--text-color);
 }
 
 .feature-card p {
   margin: 0;
-  font-size: 0.9rem;
+  font-size: 0.85rem;
   color: var(--subtext-color);
+}
+
+/* Desktop style */
+@media (min-width: 768px) {
+  :root {
+    --section-padding: 2rem;
+    --gap: 1.5rem;
+    --icon-size: 48px;
+  }
+
+  .features {
+    grid-template-columns: repeat(4, 1fr);
+  }
+
+  .feature-card h3 {
+    font-size: 1.1rem;
+  }
+
+  .feature-card p {
+    font-size: 0.9rem;
+  }
 }
