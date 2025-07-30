@@ -7,14 +7,148 @@
     <title>HomePage</title>
     <link rel="stylesheet" href="styles.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&family=Roboto:ital,wght@0,100..900;1,100..900&display=swap"
+        rel="stylesheet">
 </head>
 
+
 <body>
+    <!-- JS for the menu -->
+    <script>
+        document.addEventListener("DOMContentLoaded", function () {
+            const menu = document.querySelector(".fly_menu");
+            const btnOpen = document.getElementById("menu_toggle_on");
+            const btnClose = document.getElementById("menu_toggle_off");
+
+            btnOpen.addEventListener("click", function () {
+                menu.style.display = "flex";
+            });
+
+            btnClose.addEventListener("click", function () {
+                menu.style.display = "none";
+            });
+        });
+    </script>
+
+    <!-- Navigation Bar -->
+    <header class="desktop_header">
+        <p id="name_brand">3legant.</p>
+        <div class="options">
+            <a href="#">Home</a>
+            <a href="#">Shop</a>
+            <a href="#">Product</a>
+            <a href="#">Contact Us</a>
+        </div>
+        <div class="user_icons">
+            <img src="Images/search.svg" alt="">
+            <img src="Images/user.svg" alt="">
+            <img src="Images/cart.svg" alt="">
+            <img src="Images/noti.svg" alt="">
+        </div>
+    </header>
+
+    <header class="mobile_header">
+        <div class="principal_header">
+            <div class="main_title">
+                <button id="menu_toggle_on"></button>
+                <p id="first_title">3legant.</p>
+            </div>
+            <div class="icon_cart">
+                <img src="Images/cart.svg" alt="">
+                <img src="Images/noti.svg" alt="">
+            </div>
+        </div>
+
+        <div class="fly_menu">
+            <div class="first_menu">
+                <div class="second_title">
+                    <p id="sec_title">3legant.</p>
+                    <button id="menu_toggle_off"></button>
+                </div>
+                <div class="search_bar">
+                    <div id="search_icon"></div>
+                    <input type="text" name="search" id="search" placeholder="Search">
+                </div>
+                <nav class="nav">
+                    <div class="option">Home</div>
+                    <select name="shop" id="cmb_shop">
+                        <option value="" selected disabled>Shop</option>
+                    </select>
+                    <select name="product" id="cmb_product">
+                        <option value="" selected disabled>Product</option>
+                    </select>
+                    <div class="option">Contact Us</div>
+                </nav>
+            </div>
+
+            <div class="second_menu">
+                <div class="option_2">
+                    <a href="#">Cart</a>
+                    <div class="icon_cart">
+                        <img src="Images/cart.svg" alt="">
+                        <img src="Images/noti.svg" alt="">
+                    </div>
+                </div>
+                <div class="option_2">
+                    <a href="#">Wishlist</a>
+                    <div class="icon_wl">
+                        <img src="Images/Heart.svg" alt="">
+                        <img src="Images/noti.svg" alt="">
+                    </div>
+                </div>
+                <button id="fly_menu_btn">Sign In</button>
+                <div class="social_media">
+                    <img src="Images/social icon.svg" alt="">
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <!-- First Carrousel section -->
+    <div class="first_carousel">
+        <div class="slider">
+            <img src="Images/Slide1.jpg" alt="">
+            <img src="Images/Slide2.jpg" alt="">
+            <img src="Images/Slide3.jpg" alt="">
+        </div>
+        <div class="description">
+            <p id="principal_title">Simply Unique/Simply Better.</p>
+            <p id="desc">3legant is a gift & decorations store based in HCMC, Vietnam. Est since 2019.</p>
+        </div>
+    </div>
+
+    <!-- Subcategories section -->
+    <section class="subcategories">
+        <div class="subcategories__item--living">
+            <div class="subcategories_overlay">
+                <h3 class="subcategories_title">Living Room</h3>
+                <a href="#" class="subcategories_link">Shop Now →</a>
+            </div>
+        </div>
+
+        <div class="subcategories_item--bedroom">
+            <div class="subcategories_overlay">
+                <h3 class="subcategories_title">Bedroom</h3>
+                <a href="#" class="subcategories_link">Shop Now →</a>
+            </div>
+        </div>
+
+        <div class="subcategories_item--kitchen">
+            <div class="subcategories_overlay">
+                <h3 class="subcategories_title"> Kitchen</h3>
+                <a href="#" class="subcategories_link">Shop Now →</a>
+            </div>
+        </div>
+    </section>
+
     <!--Second Carrousel Section-->
     <section class="carousel">
         <div class="section_header">
-            <h1>New<br>Arrivals</h1>
-            <a class="more" href="#">More Products →</a>
+            <p id="new_a_title">New<br>Arrivals</p>
+            <a class="more desktop" href="#">More Products →</a>
         </div>
         <div class="carousel-container">
             <div class="carousel-track">
@@ -90,6 +224,127 @@
 
             </div>
         </div>
+        <<<<<<< Updated upstream=======<a class="more mobile" href="#">More Products →</a>
+    </section>
+
+    <!-- Features Section -->
+    <section class="features">
+        <div class="feature-card">
+            <img src="Images/free_shipping.png" alt="Free Shipping icon">
+            <h3>Free Shipping</h3>
+            <p>Order above $200</p>
+        </div>
+        <div class="feature-card">
+            <img src="Images/money_back.webp" alt="Money-back icon">
+            <h3>Money-back</h3>
+            <p>30 days guarantee</p>
+        </div>
+        <div class="feature-card">
+            <img src="Images/secure.png" alt="Secure Payments icon">
+            <h3>Secure Payments</h3>
+            <p>Secured by Stripe</p>
+        </div>
+        <div class="feature-card">
+            <img src="Images/call.png" alt="24/7 Support icon">
+            <h3>24/7 Support</h3>
+            <p>Phone and Email support</p>
+        </div>
+    </section>
+
+    <!-- Discount Section -->
+    <section class="discount_section">
+        <div class="img_dis">
+            <img src="Images/discount.jpg" alt="">
+        </div>
+        <div class="info_dis">
+            <h3>SALE UP TO 35% OFF</h3>
+            <h4>HUNDREDS of New Lower Prices</h4>
+            <p>It’s more affordable than ever to give every room in your home a stylish makeover</p>
+            <div class="link_desc">
+                <span>Shop Now</span>
+                <svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M4.16666 10H15.8333" stroke="#141718" stroke-width="1.25" stroke-linecap="round" />
+                    <path d="M12.5 13.3333L15.8333 10" stroke="#141718" stroke-width="1.25" stroke-linecap="round" />
+                    <path d="M12.5 6.66669L15.8333 10" stroke="#141718" stroke-width="1.25" stroke-linecap="round" />
+                </svg>
+            </div>
+        </div>
+
+    </section>
+
+    <!-- Article section-->
+    <section class="Article-section">
+        <div class="Article-header">
+            <h2>Articles</h2>
+            <a href="#" class="view-all">
+                <span>View all</span>
+                <svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M4.16666 10H15.8333" stroke="#141718" stroke-width="1.25" stroke-linecap="round" />
+                    <path d="M12.5 13.3333L15.8333 10" stroke="#141718" stroke-width="1.25" stroke-linecap="round" />
+                    <path d="M12.5 6.66669L15.8333 10" stroke="#141718" stroke-width="1.25" stroke-linecap="round" />
+                </svg>
+            </a>
+        </div>
+
+        <div class="articles-container">
+            <article class="article-card">
+                <div class="article-image">
+                    <img src="Images/home.png" alt="Home decoration">
+                </div>
+                <div class="article-info">
+                    <h3>7 ways to decor your home</h3>
+                    <a href="#" class="read-more">
+                        <span>Read more</span>
+                        <svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <path d="M4.16666 10H15.8333" stroke="#141718" stroke-width="1.25" stroke-linecap="round" />
+                            <path d="M12.5 13.3333L15.8333 10" stroke="#141718" stroke-width="1.25"
+                                stroke-linecap="round" />
+                            <path d="M12.5 6.66669L15.8333 10" stroke="#141718" stroke-width="1.25"
+                                stroke-linecap="round" />
+                        </svg>
+                    </a>
+                </div>
+            </article>
+
+            <article class="article-card">
+                <div class="article-image">
+                    <img src="Images/kitchen.png" alt="Kitchen organization">
+                </div>
+                <div class="article-info">
+                    <h3>Kitchen organization</h3>
+                    <a href="#" class="read-more">
+                        <span>Read more</span>
+                        <svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <path d="M4.16666 10H15.8333" stroke="#141718" stroke-width="1.25" stroke-linecap="round" />
+                            <path d="M12.5 13.3333L15.8333 10" stroke="#141718" stroke-width="1.25"
+                                stroke-linecap="round" />
+                            <path d="M12.5 6.66669L15.8333 10" stroke="#141718" stroke-width="1.25"
+                                stroke-linecap="round" />
+                        </svg>
+                    </a>
+                </div>
+            </article>
+
+            <article class="article-card">
+                <div class="article-image">
+                    <img src="Images/bedroom.png" alt="Bedroom decor">
+                </div>
+                <div class="article-info">
+                    <h3>Decor your bedroom</h3>
+                    <a href="#" class="read-more">
+                        <span>Read more</span>
+                        <svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <path d="M4.16666 10H15.8333" stroke="#141718" stroke-width="1.25" stroke-linecap="round" />
+                            <path d="M12.5 13.3333L15.8333 10" stroke="#141718" stroke-width="1.25"
+                                stroke-linecap="round" />
+                            <path d="M12.5 6.66669L15.8333 10" stroke="#141718" stroke-width="1.25"
+                                stroke-linecap="round" />
+                        </svg>
+                    </a>
+                </div>
+            </article>
+        </div>
+        >>>>>>> Stashed changes
     </section>
 
     <!-- Newsletter Section-->
@@ -106,7 +361,7 @@
     </section>
 
     <!-- Footer Section -->
-     <footer class="home_footer">
+    <footer class="home_footer">
         <div class="footer_title_container">
             <h2 class="footer_title">3legant.</h2>
             <hr class="footer_title_underline">
@@ -130,7 +385,7 @@
             <a href="/TermsUse.html">Terms of use</a>
         </div>
         <p class="copyright">Copyright © 2023 3legant. All rights reserved</p>
-     </footer>
+    </footer>
 </body>
 
 </html>
