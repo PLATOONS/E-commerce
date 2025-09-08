@@ -14,7 +14,7 @@ const DiscountSection: React.FC = () => {
                     It’s more affordable than ever to give every room in your home a stylish makeover
                 </p>
                 <div className="link_desc">
-                    <Link href={"#"}>Shop now</Link>
+                    <Link href={"/shop"}>Shop now</Link>
                     <svg
                         width="20"
                         height="20"

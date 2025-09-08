@@ -7,21 +7,21 @@ const SubcategoriesSection: React.FC = () => {
             <div className="subcategories__item--living">
                 <div className="subcategories_overlay">
                     <h3 className="subcategories_title">Living Room</h3>
-                    <Link href = {"#"} className= "subcategories_link">Shop Now →</Link>
+                    <Link href = {"/shop"} className= "subcategories_link">Shop Now →</Link>
                 </div>
             </div>
             
             <div className="subcategories_item--bedroom">
                 <div className="subcategories_overlay">
                     <h3 className="subcategories_title">Bedroom</h3>
-                    <Link href = {"#"}className="subcategories_link">Shop Now →</Link>
+                    <Link href = {"/shop"}className="subcategories_link">Shop Now →</Link>
                 </div>
             </div>
 
             <div className="subcategories_item--kitchen">
                 <div className="subcategories_overlay">
                     <h3 className="subcategories_title">Kitchen</h3>
-                    <Link href = {"#"}className="subcategories_link">Shop Now →</Link>
+                    <Link href = {"/shop"}className="subcategories_link">Shop Now →</Link>
                 </div>
             </div>
         </section>
