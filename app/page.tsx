@@ -3,6 +3,8 @@ import DiscountSection from "@/components/DiscountSection"; // Import for "Disco
 import SubcategoriesSection from "@/components/SubcategoriesSection";
 import NewsletterSection from "@/components/NewsletterSection";
 import BenefitSection from "@/components/BenefitSection";
+import ProductCarousel from "@/components/ProductCarousel";
+
 
 export default function Home() {
   return (
@@ -11,6 +13,7 @@ export default function Home() {
 
         {/* Here we render the component */}
         <SubcategoriesSection />
+        <ProductCarousel /> {/*Need to change this after endpoint and also I need to import Product card I think Jeje*/}
         <BenefitSection />
         <DiscountSection />
         <NewsletterSection />
