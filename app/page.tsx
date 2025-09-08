@@ -3,7 +3,7 @@ import DiscountSection from "@/components/DiscountSection"; // Import for "Disco
 import SubcategoriesSection from "@/components/SubcategoriesSection";
 import NewsletterSection from "@/components/NewsletterSection";
 import BenefitSection from "@/components/BenefitSection";
-import ArticlesSection from "@/components/ArticlesSection";
+
 
 export default function Home() {
   return (
