@@ -1,18 +1,22 @@
 import Image from "next/image";
-import DiscountSection from "@/components/DiscountSection";
+import Header from "@/components/Header";
+import DiscountSection from "@/components/DiscountSection"; // Import for "Discount Section"
 import SubcategoriesSection from "@/components/SubcategoriesSection";
 import NewsletterSection from "@/components/NewsletterSection";
 import BenefitSection from "@/components/BenefitSection";
-import ArticlesSection from "@/components/ArticlesSection";
+import ProductCarousel from "@/components/ProductCarousel";
+
 
 export default function Home() {
+  
   return (
     <div>
+      <Header /> 
       <main>
         <SubcategoriesSection />
+        <ProductCarousel />
         <BenefitSection />
         <DiscountSection />
-        <ArticlesSection />
         <NewsletterSection />
       </main>
     </div>
