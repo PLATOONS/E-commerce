@@ -19,10 +19,10 @@ type BenefitSectionProps = {
 };
 
 const defaultData: BenefitItemProps[] = [
-      { image_url: "/images/free_shipping.png", title: "Free Shipping", description: "Order above $200" },
-  { image_url: "/images/money_back.webp",  title: "Money-back",    description: "30 days guarantee" },
-  { image_url: "/images/secure.png",       title: "Secure Payments", description: "Secured by Stripe" },
-  { image_url: "/images/call.png",         title: "24/7 Support",    description: "Phone and Email support" },
+      { image_url: "/Images/free_shipping.png", title: "Free Shipping", description: "Order above $200" },
+  { image_url: "/Images/money_back.webp",  title: "Money-back",    description: "30 days guarantee" },
+  { image_url: "/Images/secure.png",       title: "Secure Payments", description: "Secured by Stripe" },
+  { image_url: "/Images/call.png",         title: "24/7 Support",    description: "Phone and Email support" },
 ];
 
 const BenefitSection: React.FC<BenefitSectionProps> = ({ data = defaultData }) => (
