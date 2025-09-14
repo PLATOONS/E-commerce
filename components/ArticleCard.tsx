@@ -1,3 +1,4 @@
+// components/ArticleCard.tsx
 import React from "react";
 import Link from "next/link";
 import Image from "next/image";
@@ -11,13 +12,8 @@ const ArticleCard: React.FC<ArticleCardProps> = ({ image_url, title }) => {
   return (
     <article className="article-card">
       <div className="article-image">
-        <Image 
-          src={image_url} 
-          alt={title}
-          width={357}
-          height={268}
-          style={{ objectFit: 'cover' }}
-        />
+        {/* Use regular img tag instead of Next.js Image for simplicity */}
+        <img src={image_url} alt={title} />
       </div>
       <div className="article-info">
         <h3>{title}</h3>

@@ -7,11 +7,23 @@ interface Article {
   title: string;
 }
 
-interface ArticlesSectionProps {
-  articles: Article[];
-}
+const ArticlesSection: React.FC = () => {
+  //DAta
+  const articlesData: Article[] = [
+    {
+      image_url: "/Images/home.png",
+      title: "7 ways to decor your home"
+    },
+    {
+      image_url: "/Images/kitchen.png", 
+      title: "Kitchen organization"
+    },
+    {
+      image_url: "/Images/bedroom.png",
+      title: "Decor your bedroom"
+    }
+  ];
 
-const ArticlesSection: React.FC<ArticlesSectionProps> = ({ articles }) => {
   return (
     <section className="Article-section">
       <div className="Article-header">
@@ -27,7 +39,7 @@ const ArticlesSection: React.FC<ArticlesSectionProps> = ({ articles }) => {
       </div>
       
       <div className="articles-container">
-        {articles.map((article, index) => (
+        {articlesData.map((article, index) => (
           <ArticleCard
             key={index}
             image_url={article.image_url}
