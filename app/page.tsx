@@ -4,17 +4,15 @@ import SubcategoriesSection from "@/components/SubcategoriesSection";
 import NewsletterSection from "@/components/NewsletterSection";
 import BenefitSection from "@/components/BenefitSection";
 import ArticlesSection from "@/components/ArticlesSection";
-import ProductCarousel from "@/components/ProductCarousel";
 
 export default function Home() {
   return (
     <div>
       <main>
         <SubcategoriesSection />
-        <ProductCarousel />
         <BenefitSection />
         <DiscountSection />
-        <ArticlesSection />
+        <ArticlesSection /> 
         <NewsletterSection />
       </main>
     </div>
