@@ -7,6 +7,7 @@ import ArticlesSection from "@/components/ArticlesSection";
 import ProductCarousel from "@/components/ProductCarousel";
 
 export default function Home() {
+  
   return (
     <div>
       <main>
