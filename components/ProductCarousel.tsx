@@ -27,8 +27,8 @@ async function getProducts(): Promise<ProductCardData[]> {
 
   const mapped: ProductCardData[] = items.map((p) => {
     const img = p.imageUrl
-      ? (p.imageUrl.startsWith("http") ? p.imageUrl : `/images/${p.imageUrl}`)
-      : "/images/placeholder.png";
+      ? (p.imageUrl.startsWith("http") ? p.imageUrl : `/Images/${p.imageUrl}`)
+      : "/Images/placeholder.png";
     return {
       id: p.productId,
       name: p.productName,
@@ -60,7 +60,7 @@ export type ProductCarouselProps = {
 
 export default async function ProductCarousel({
   title = "New\nArrivals",
-  moreHref = "#",
+  moreHref = "/shop",
   className,
 }: ProductCarouselProps) {
   const products = await getProducts();

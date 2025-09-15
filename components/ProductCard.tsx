@@ -109,7 +109,7 @@ export default function ProductCard({
           alt={data.imageName || data.name}
           width={600}
           height={600}
-          className="w-full h-auto"
+          className="w-24 h-24"
         />
       </Link>
 
