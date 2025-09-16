@@ -7,6 +7,7 @@ import BenefitSection from "@/components/BenefitSection";
 import CarouselSection from "@/components/CarouselSection";
 import ProductCarousel from "@/components/ProductCarousel";
 import ArticlesSection from "@/components/ArticlesSection";
+import Footer from "@/components/Footer";
 
 export default function Home() {
   return (
@@ -21,7 +22,9 @@ export default function Home() {
         <DiscountSection />
         <ArticlesSection />
         <NewsletterSection />
+        <Footer />
       </main>
     </div>
   );
 }
+
