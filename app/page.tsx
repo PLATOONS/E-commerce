@@ -21,7 +21,9 @@ export default function Home() {
         <DiscountSection />
         <ArticlesSection />
         <NewsletterSection />
+        <Footer />
       </main>
     </div>
   );
 }
+
