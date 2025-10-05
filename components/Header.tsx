@@ -36,10 +36,10 @@ const Header: React.FC = () => {
       <header className="desktop_header">
         <p id="name_brand">3legant.</p>
         <div className="options">
-          <Link href="#">Home</Link>
-          <Link href="#">Shop</Link>
-          <Link href="#">Product</Link>
-          <Link href="#">Contact Us</Link>
+          <Link href="/">Home</Link>
+          <Link href="/shop">Shop</Link>
+          <Link href="/product">Product</Link>
+          <Link href="/contact_us">Contact Us</Link>
         </div>
         <div className="user_icons">
           <Image src="/Images/search.svg" alt="Search" width={24} height={24} />

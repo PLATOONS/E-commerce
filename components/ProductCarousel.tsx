@@ -17,7 +17,7 @@ type PageResponse = { content: ApiProduct[] };
 
 async function getProducts(): Promise<ProductCardData[]> {
   const res = await fetch(
-    "http://localhost:8000/api/v1/product?page=0&size=10&sort=createdAt,desc",
+    `${process.env.API_URL}/api/v1/product?page=0&size=10&sort=createdAt,desc`,
     { cache: "no-store" }
   );
   if (!res.ok) throw new Error("Failed products");
