@@ -1,6 +1,5 @@
 import React from "react";
 import Link from "next/link";
-import Image from "next/image";
 
 interface ArticleCardProps {
   image_url: string;
@@ -16,7 +15,7 @@ const ArticleCard: React.FC<ArticleCardProps> = ({ image_url, title }) => {
       </div>
       <div className="article-info">
         <h3>{title}</h3>
-        <Link href="#" className="read-more">
+        <Link href="/article_post/1" className="read-more">
           <span>Read more</span>
           <svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
             <path d="M4.16666 10H15.8333" stroke="#141718" strokeWidth="1.25" strokeLinecap="round"/>
