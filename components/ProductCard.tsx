@@ -2,9 +2,10 @@
 import Image from "next/image";
 import Link from "next/link";
 import { useMemo, useState } from "react";
+import Wishlist from "./Wishlist";
 
 export type ProductCardData = {
-  id: string | number;
+  id: string;
   price: number;
   discountPercentage?: number | null;
   discountedPrice?: number | null;
@@ -20,7 +21,6 @@ export type ProductCardProps = {
   data: ProductCardData;
   className?: string;
   onAddedToCart?: (id: string | number) => void;
-  onWishlistToggled?: (id: string | number, nowWishlisted: boolean) => void;
 };
 
 function isNew(createdAt?: string | Date, days = 7) {
@@ -34,11 +34,8 @@ export default function ProductCard({
   data,
   className,
   onAddedToCart,
-  onWishlistToggled,
 }: ProductCardProps) {
   const [adding, setAdding] = useState(false);
-  const [wishlisted, setWishlisted] = useState(!!data.wishlisted);
-  const [wishlistLoading, setWishlistLoading] = useState(false);
 
   const { finalPrice, hasDiscount, pct } = useMemo(() => {
     const pct = data.discountPercentage ?? null;
@@ -69,23 +66,6 @@ export default function ProductCard({
     }
   };
 
-  const toggleWishlist = async () => {
-    if (wishlistLoading) return;
-    try {
-      setWishlistLoading(true);
-      setWishlisted((w) => !w); // optimistic
-      const res = await fetch(`/api/v1/whishlist/product/${data.id}`, { method: "POST" });
-      if (!res.ok) {
-        setWishlisted((w) => !w); // revert
-        throw new Error(`wishlist failed: ${res.status}`);
-      }
-      onWishlistToggled?.(data.id, !wishlisted);
-    } catch (e) {
-      console.error(e);
-    } finally {
-      setWishlistLoading(false);
-    }
-  };
 
   return (
     <div className={`carousel-item ${className ?? ""}`}>
@@ -94,14 +74,7 @@ export default function ProductCard({
         {hasDiscount && pct != null && <span className="discount">-{pct}%</span>}
       </div>
 
-      <button
-        className="like-button"
-        aria-label={wishlisted ? "Remove from wishlist" : "Add to wishlist"}
-        onClick={toggleWishlist}
-        disabled={wishlistLoading}
-      >
-        {wishlisted ? "❤️" : "♡"}
-      </button>
+      <Wishlist isSmall={true} isWishlisted={data.wishlisted} productId={data.id}/>
 
       <Link href={`/product/${data.id}`} aria-label={`Open ${data.name}`}>
         <Image
