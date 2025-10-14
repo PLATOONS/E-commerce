@@ -19,9 +19,9 @@ const PriceComponent: React.FC<PriceComponentProps> = ({ price = 0, discounted_a
       <span className="text-2xl font-bold text-gray-900">
         {formatAsCurrency(discountedPrice)}
       </span>
-      <span className="text-lg text-gray-400 line-through">
+      {!discounted_amount || <span className="text-lg text-gray-400 line-through">
         {formatAsCurrency(price)}
-      </span>
+      </span>}
     </div>
   );
 };
