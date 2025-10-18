@@ -5,41 +5,38 @@ import Quantity from './Quantity'
 import AddToCart from './AddToCart'
 import { useRouter } from 'next/navigation'
 import ColorPickerSelector from './ColorPickerSelector'
-import placeholder from '@/public/Images/placeholder.png'
+import ColorPicker from '@/types/ColorPicker'
+import { validateJWT } from '@/utils/jwtUtils'
 
 export default function BuyProduct({
   productId,
   isWishlisted,
   quantityProp,
+  options,
 }: {
   productId: string
   isWishlisted: boolean
   quantityProp: number
+  options: Array<ColorPicker>
 }) {
   const [quantity, setQuantity] = useState<number>(quantityProp)
   const router = useRouter()
 
   const onClick = () => {
-    try {
-      console.log('Make API call here')
+    // Check if the user is logged in, redirect to log in page if not
+    const token = window.sessionStorage.getItem('token')
 
-      router.replace('/checkout?page=0')
-    } catch {
-      console.error("Couldn't add product to cart")
+    console.log(token)
+
+    if (!token || !validateJWT(token)) {
+      router.replace('/login')
+      return
     }
-  }
 
-  // TODO: change this so that it uses real data
-  const options = [
-    {
-      color: 'black',
-      imageUrl: placeholder.src,
-    },
-    {
-      color: 'blue',
-      imageUrl: placeholder.src,
-    },
-  ]
+    // TODO: make API call for adding to cart
+
+    router.replace('/checkout?page=0')
+  }
 
   const [selected, setSelected] = useState<string>(options[0].color)
 

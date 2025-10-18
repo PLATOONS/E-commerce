@@ -1,9 +1,5 @@
+import ColorPicker from '@/types/ColorPicker'
 import Image from 'next/image'
-
-type ColorPicker = {
-  imageUrl: string
-  color: string
-}
 
 export default function ColorPickerSelector({
   options,
