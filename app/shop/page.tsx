@@ -5,6 +5,8 @@ import ShopGrid from '@/components/ShopGrid'
 import shopBanner from '@/public/Images/shop_banner.png'
 import { fetchAllCategories } from '@/services/categoryService'
 
+export const dynamic = 'force-dynamic';
+
 export default async function Shop() {
   const res = await fetchAllCategories()
 
