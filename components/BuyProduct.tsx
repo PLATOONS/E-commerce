@@ -38,15 +38,19 @@ export default function BuyProduct({
     router.replace('/checkout?page=0')
   }
 
-  const [selected, setSelected] = useState<string>(options[0].color)
+  const [selected, setSelected] = useState<string | null>(
+    options[0]?.color || null
+  )
 
   return (
     <div className='flex gap-4 flex-col my-3'>
-      <ColorPickerSelector
-        options={options}
-        selected={selected}
-        setSelected={setSelected}
-      />
+      {selected && (
+        <ColorPickerSelector
+          options={options}
+          selected={selected}
+          setSelected={setSelected}
+        />
+      )}
       <div className='flex flex-row gap-6'>
         <Quantity quantity={quantity} setQuantity={setQuantity} />
         <Wishlist

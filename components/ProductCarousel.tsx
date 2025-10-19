@@ -1,7 +1,7 @@
 import Link from "next/link";
 import ProductCard, { ProductCardData } from "./ProductCard";
 
-type ApiProduct = {
+export type ApiProduct = {
   productId: string;
   productName: string;
   price: number;
@@ -13,11 +13,11 @@ type ApiProduct = {
   createdAt?: string;
   deleteAt?: string | null;
 };
-type PageResponse = { content: ApiProduct[] };
+export type PageResponse = { content: ApiProduct[] };
 
 async function getProducts(): Promise<ProductCardData[]> {
   const res = await fetch(
-    `${process.env.API_URL}/product?page=0&size=10&sort=createdAt,desc`,
+    `${process.env.NEXT_PUBLIC_API_URL}/product?page=0&size=10&sort=createdAt,desc`,
     { cache: "no-store" }
   );
   if (!res.ok) throw new Error("Failed products");
@@ -30,7 +30,7 @@ async function getProducts(): Promise<ProductCardData[]> {
       ? (p.imageUrl.startsWith("http") ? p.imageUrl : `/Images/${p.imageUrl}`)
       : "/Images/placeholder.png";
     return {
-      id: p.productId,
+      productId: p.productId,
       name: p.productName,
       price: p.price,
       discountPercentage: p.discountPercentage ?? null,
@@ -82,7 +82,7 @@ export default async function ProductCarousel({
       <div className="carousel-container">
         <div className="carousel-track">
           {sortedProducts.map((p) => (
-            <ProductCard key={p.id} data={p} />
+            <ProductCard key={p.productId} data={p} />
           ))}
         </div>
       </div>
