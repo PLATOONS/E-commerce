@@ -1,17 +1,18 @@
-// components/loginForm.tsx
+// components/LogInForm.tsx
 'use client';
 import React, { useState } from 'react';
 import { useRouter } from 'next/navigation';
 import Link from 'next/link';
 import Image from 'next/image';
 
-const loginForm: React.FC = () => {
+const LogInForm: React.FC = () => {
   const router = useRouter();
   const [formData, setFormData] = useState({
     username: '',
     password: '',
     rememberMe: false
   });
+  const [showPassword, setShowPassword] = useState(false);
   const [error, setError] = useState<string>('');
   const [loading, setLoading] = useState<boolean>(false);
 
@@ -70,6 +71,10 @@ const loginForm: React.FC = () => {
     }));
   };
 
+  const togglePasswordVisibility = () => {
+    setShowPassword(!showPassword);
+  };
+
   return (
     <div className="login-container">
       {/* Left side with background image */}
@@ -115,15 +120,27 @@ const loginForm: React.FC = () => {
               />
             </div>
 
-            <div className="form-input">
+            <div className="form-input password-input-container">
               <input
-                type="password"
+                type={showPassword ? "text" : "password"}
                 name="password"
                 placeholder="Password"
                 value={formData.password}
                 onChange={handleChange}
                 required
+                className="password-input"
               />
+              <span 
+                className={`eye-icon ${showPassword ? 'eye-icon-slash' : ''}`}
+                onClick={togglePasswordVisibility}
+              >
+                 <Image 
+            src={showPassword ? "/Images/eye.svg" : "/Images/eye.svg"} 
+               alt={showPassword ? "Hide password" : "Show password"}
+               width={20}
+               height={20}
+               />
+              </span>
             </div>
 
             <div className="form-options">
@@ -156,4 +173,4 @@ const loginForm: React.FC = () => {
   );
 };
 
-export default loginForm;
+export default LogInForm;

@@ -15,6 +15,7 @@ const SignUpForm: React.FC = () => {
     password: '',
     acceptTerms: false
   });
+  const [showPassword, setShowPassword] = useState(false);
   const [error, setError] = useState<string>('');
   const [loading, setLoading] = useState<boolean>(false);
 
@@ -26,7 +27,6 @@ const SignUpForm: React.FC = () => {
     try {
       console.log('Sending registration request:', formData);
       
-      // field
       const requestBody = {
         username: formData.username,
         email: formData.email,
@@ -53,10 +53,12 @@ const SignUpForm: React.FC = () => {
       let data = responseText;
 
       if (!response.ok) {
-        // Try to get error 
         const errorMessage = `Registration failed with status ${response.status}`;
         throw new Error(errorMessage);
       }
+
+      // Redirect to login on successful registration
+      router.push('/login');
 
     } catch (err: any) {
       console.error('Registration error:', err);
@@ -72,6 +74,10 @@ const SignUpForm: React.FC = () => {
       ...prev,
       [name]: type === 'checkbox' ? checked : value
     }));
+  };
+
+  const togglePasswordVisibility = () => {
+    setShowPassword(!showPassword);
   };
 
   return (
@@ -152,19 +158,28 @@ const SignUpForm: React.FC = () => {
               />
             </div>
 
-            <div className="form-input">
+            <div className="form-input password-input-container">
               <input
-                type="password"
+                type={showPassword ? "text" : "password"}
                 name="password"
                 placeholder="Password"
                 value={formData.password}
                 onChange={handleChange}
                 required
                 minLength={6}
+                className="password-input"
               />
-              <small style={{color: '#6C7275', fontSize: '12px', marginTop: '4px'}}>
-                Use a strong password with uppercase, lowercase, numbers, and special characters
-              </small>
+              <span 
+                className={`eye-icon ${showPassword ? 'eye-icon-slash' : ''}`}
+                onClick={togglePasswordVisibility}
+              >
+                 <Image 
+                    src={showPassword ? "/Images/eye.svg" : "/Images/eye.svg"} 
+                    alt={showPassword ? "Hide password" : "Show password"}
+                    width={20}
+                    height={20}
+                />
+               </span>
             </div>
 
             <div className="terms-checkbox">
