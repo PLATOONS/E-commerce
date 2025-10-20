@@ -12,7 +12,6 @@ const LogInForm: React.FC = () => {
     password: '',
     rememberMe: false
   });
-  const [showPassword, setShowPassword] = useState(false);
   const [error, setError] = useState<string>('');
   const [loading, setLoading] = useState<boolean>(false);
 
@@ -71,20 +70,31 @@ const LogInForm: React.FC = () => {
     }));
   };
 
-  const togglePasswordVisibility = () => {
-    setShowPassword(!showPassword);
-  };
-
   return (
     <div className="login-container">
-      {/* Left side with background image */}
-      <div className="login-left">
+      {/* Mobile: Image at the top */}
+      <div className="login-left-mobile">
+        <div className="logo">
+          <Link href="/">3legant.</Link>
+        </div>
+        <div className="background-image-mobile">
+          <Image 
+            src="/Images/char.svg" 
+            alt="Decoration" 
+            fill
+            style={{ objectFit: 'cover' }}
+          />
+        </div>
+      </div>
+
+      {/* Desktop: Image on the left */}
+      <div className="login-left-desktop">
         <div className="logo">
           <Link href="/">3legant.</Link>
         </div>
         <div className="background-image">
           <Image 
-            src="/Images/test.svg" 
+            src="/Images/char.svg" 
             alt="Decoration" 
             fill
             style={{ objectFit: 'cover' }}
@@ -120,27 +130,15 @@ const LogInForm: React.FC = () => {
               />
             </div>
 
-            <div className="form-input password-input-container">
+            <div className="form-input">
               <input
-                type={showPassword ? "text" : "password"}
+                type="password"
                 name="password"
                 placeholder="Password"
                 value={formData.password}
                 onChange={handleChange}
                 required
-                className="password-input"
               />
-              <span 
-                className={`eye-icon ${showPassword ? 'eye-icon-slash' : ''}`}
-                onClick={togglePasswordVisibility}
-              >
-                 <Image 
-            src={showPassword ? "/Images/eye.svg" : "/Images/eye.svg"} 
-               alt={showPassword ? "Hide password" : "Show password"}
-               width={20}
-               height={20}
-               />
-              </span>
             </div>
 
             <div className="form-options">
