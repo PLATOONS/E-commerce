@@ -1,4 +1,3 @@
-import Image from "next/image";
 import Header from "@/components/Header";
 import DiscountSection from "@/components/DiscountSection";
 import SubcategoriesSection from "@/components/SubcategoriesSection";
