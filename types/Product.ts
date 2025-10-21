@@ -1,7 +1,6 @@
 import ColorPicker from './ColorPicker'
 
 type product = {
-  [x: string]: string
   productId: string
   category: string
   productImages: Array<ColorPicker>

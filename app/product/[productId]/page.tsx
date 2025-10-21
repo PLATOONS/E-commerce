@@ -25,7 +25,7 @@ export default async function Home({
     return (
       <div>
         <Header />
-        <h1 className="text-3xl font-bold">Product not found</h1>
+        <h1 className='text-3xl font-bold'>Product not found</h1>
         <NewsletterSection />
         <Footer />
       </div>
@@ -50,11 +50,11 @@ export default async function Home({
     <div>
       <Header />
       <main
-        className="px-6 py-10 space-y-12 mx-4 
-        md:flex md:flex-row md:space-x-8 md:space-y-0"
+        className='px-6 py-10 space-y-12 mx-4 
+        md:flex md:flex-row md:space-x-8 md:space-y-0'
       >
         {/* Galería de imágenes */}
-        <div className="w-full md:w-1/2">
+        <div className='w-full md:w-1/2'>
           <ProductImageGallery
             imagesUrl={galleryImages}
             isNew={true || false}
@@ -63,15 +63,12 @@ export default async function Home({
         </div>
 
         {/* Información del producto */}
-        <div className="w-full md:w-1/2 flex flex-col space-y-6">
+        <div className='w-full md:w-1/2 flex flex-col space-y-6'>
           {/* Nombre + descripción */}
-          <ProductDescription
-            name={data.name}
-            description={data.description}
-          />
+          <ProductDescription name={data.name} description={data.description} />
 
           {/* Metadata: SKU y categoría */}
-          <ProductMetaData SKU={data.sku} category={data.category} />
+          <ProductMetaData SKU={data.productId} category={data.category} />
 
           {/* Precio y botón de compra */}
           <PriceComponent
