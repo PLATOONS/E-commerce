@@ -1,15 +1,16 @@
 "use client";
 
+// components/Header.tsx
 import React, { useState, useRef, useEffect } from "react";
 import Link from "next/link";
 import Image from "next/image";
 
 const Header: React.FC = () => {
-  const [cartCount, setCartCount] = useState(3); // Example count
+  const [cartCount, setCartCount] = useState(0);
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const menuRef = useRef<HTMLDivElement>(null);
 
-  // Close clicking outside
+  // Close menu when clicking outside
   useEffect(() => {
     const handleClickOutside = (event: MouseEvent) => {
       if (menuRef.current && !menuRef.current.contains(event.target as Node)) {
@@ -43,7 +44,9 @@ const Header: React.FC = () => {
         </div>
         <div className="user_icons">
           <Image src="/Images/search.svg" alt="Search" width={24} height={24} />
-          <Image src="/Images/user.svg" alt="User" width={24} height={24} />
+          <Link href="/login">
+            <Image src="/Images/user.svg" alt="User" width={24} height={24} />
+          </Link>
           <div className="icon_with_badge">
             <Image src="/Images/cart.svg" alt="Cart" width={24} height={24} />
             {cartCount > 0 && (
@@ -53,7 +56,7 @@ const Header: React.FC = () => {
         </div>
       </header>
 
-      {/* Mobile Header*/}
+      {/* Mobile Header */}
       <header className="mobile_header">
         <div className="principal_header">
           <div className="main_title">
@@ -92,11 +95,11 @@ const Header: React.FC = () => {
                 </div>
                 <nav className="nav">
                   <div className="option">Home</div>
-                  <select name="shop" id="cmb_shop">
-                    <option value="" selected disabled>Shop</option>
+                  <select name="shop" id="cmb_shop" defaultValue="">
+                    <option value="" disabled>Shop</option>
                   </select>
-                  <select name="product" id="cmb_product">
-                    <option value="" selected disabled>Product</option>
+                  <select name="product" id="cmb_product" defaultValue="">
+                    <option value="" disabled>Product</option>
                   </select>
                   <div className="option">Contact Us</div>
                 </nav>
@@ -116,7 +119,9 @@ const Header: React.FC = () => {
                   <a href="#">Wishlist</a>
                   <Image src="/Images/Heart.svg" alt="Wishlist" width={24} height={24} />
                 </div>
-                <button id="fly_menu_btn">Sign In</button>
+                <Link href="/login" id="fly_menu_btn">
+                  Sign In
+                </Link>
                 <div className="social_media">
                   <Image src="/Images/social icon.svg" alt="Social Media" width={24} height={24} />
                 </div>
