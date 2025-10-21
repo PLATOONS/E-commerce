@@ -1,13 +1,14 @@
 'use client'
 
 import React from "react"
+import { useRouter } from "next/navigation" // App Router
 
 interface CartSummaryProps {
     subtotal: number
-    onCheckout: () => void
 }
 
-const CartSummary: React.FC<CartSummaryProps> = ({ subtotal, onCheckout }) => {
+const CartSummary: React.FC<CartSummaryProps> = ({ subtotal }) => {
+    const router = useRouter()
     const [shipping, setShipping] = React.useState<'free' | 'express' | 'pickup'>('free')
 
     const shippingCost = shipping === 'express'
@@ -17,6 +18,11 @@ const CartSummary: React.FC<CartSummaryProps> = ({ subtotal, onCheckout }) => {
             : 0
 
     const total = subtotal + shippingCost
+
+    const handleCheckout = () => {
+        // Redirect to checkout page with query params
+        router.push(`/checkout?page=1&shipping=${shipping}`)
+    }
 
     return (
         <div className="w-[312px] sm:w-[413px] h-auto p-6 border rounded-lg shadow-md bg-white">
@@ -87,7 +93,7 @@ const CartSummary: React.FC<CartSummaryProps> = ({ subtotal, onCheckout }) => {
             {/* Checkout button */}
             <button
                 className="w-full bg-gray-900 text-white py-3 rounded hover:bg-gray-800 transition text-sm sm:text-base"
-                onClick={onCheckout}
+                onClick={handleCheckout}
             >
                 Checkout
             </button>
