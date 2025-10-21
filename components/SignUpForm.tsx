@@ -15,6 +15,7 @@ const SignUpForm: React.FC = () => {
     password: '',
     acceptTerms: false
   });
+  const [showPassword, setShowPassword] = useState(false);
   const [error, setError] = useState<string>('');
   const [loading, setLoading] = useState<boolean>(false);
 
@@ -26,7 +27,6 @@ const SignUpForm: React.FC = () => {
     try {
       console.log('Sending registration request:', formData);
       
-      // field
       const requestBody = {
         username: formData.username,
         email: formData.email,
@@ -49,14 +49,22 @@ const SignUpForm: React.FC = () => {
       
       const responseText = await response.text();
       console.log('Response text:', responseText);
-      
-      let data = responseText;
 
       if (!response.ok) {
-        // Try to get error 
-        const errorMessage = `Registration failed with status ${response.status}`;
+        // Try to parse error message from response
+        let errorMessage = `Registration failed with status ${response.status}`;
+        try {
+          const errorData = JSON.parse(responseText);
+          errorMessage = errorData.message || errorMessage;
+        } catch {
+          // If response is not JSON, use the text
+          errorMessage = responseText || errorMessage;
+        }
         throw new Error(errorMessage);
       }
+
+      // Redirect to home page on successful registration
+      router.push('/');
 
     } catch (err: any) {
       console.error('Registration error:', err);
@@ -74,32 +82,21 @@ const SignUpForm: React.FC = () => {
     }));
   };
 
+  const togglePasswordVisibility = () => {
+    setShowPassword(!showPassword);
+  };
+
   return (
     <div className="signup-container">
-      {/* Mobile: Image at the top */}
-      <div className="signup-left-mobile">
-        <div className="logo">
-          <Link href="/">3legant.</Link>
-        </div>
-        <div className="background-image-mobile">
-          <Image 
-            src="/Images/char.svg" 
-            alt="Decoration" 
-            fill
-            style={{ objectFit: 'cover' }}
-          />
-        </div>
-      </div>
-
-      {/* Desktop: Image on the left */}
-      <div className="signup-left-desktop">
-        <div className="logo">
-          <Link href="/">3legant.</Link>
+      {/* Left side with background image */}
+      <div className="signup-left">
+        <div className="logo-container">
+          <Link href="/" className="logo">3legant.</Link>
         </div>
         <div className="background-image">
-          <Image 
-            src="/Images/char.svg" 
-            alt="Decoration" 
+          <Image
+            src="/Images/char.svg"
+            alt="Decoration"
             fill
             style={{ objectFit: 'cover' }}
           />
@@ -167,19 +164,28 @@ const SignUpForm: React.FC = () => {
               />
             </div>
 
-            <div className="form-input">
+            <div className="form-input password-input-container">
               <input
-                type="password"
+                type={showPassword ? "text" : "password"}
                 name="password"
                 placeholder="Password"
                 value={formData.password}
                 onChange={handleChange}
                 required
                 minLength={6}
+                className="password-input"
               />
-              <small style={{color: '#6C7275', fontSize: '12px', marginTop: '4px'}}>
-                Use a strong password with uppercase, lowercase, numbers, and special characters
-              </small>
+              <span 
+                className="eye-icon"
+                onClick={togglePasswordVisibility}
+              >
+                <Image 
+                  src="/Images/eye.svg"
+                  alt={showPassword ? "Hide password" : "Show password"}
+                  width={20}
+                  height={20}
+                />
+              </span>
             </div>
 
             <div className="terms-checkbox">

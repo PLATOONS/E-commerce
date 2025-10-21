@@ -12,6 +12,7 @@ const LogInForm: React.FC = () => {
     password: '',
     rememberMe: false
   });
+  const [showPassword, setShowPassword] = useState(false);
   const [error, setError] = useState<string>('');
   const [loading, setLoading] = useState<boolean>(false);
 
@@ -38,16 +39,31 @@ const LogInForm: React.FC = () => {
       
       const responseText = await response.text();
       console.log('Response text:', responseText);
-      
-      let data = responseText;
 
       if (!response.ok) {
-        throw new Error('Error: incorrect username, email or password');
+        // Try to parse error message from response
+        let errorMessage = 'Error: incorrect username, email or password';
+        try {
+          const errorData = JSON.parse(responseText);
+          errorMessage = errorData.message || errorMessage;
+        } catch {
+          // If response is not JSON, use default message
+        }
+        throw new Error(errorMessage);
+      }
+
+      // Parse the successful response
+      let data;
+      try {
+        data = JSON.parse(responseText);
+      } catch {
+        data = responseText; // If it's just a token string
       }
 
       // Save token to sessionStorage
-      if (data) {
-        sessionStorage.setItem('token', data);
+      const token = data.token || data;
+      if (token) {
+        sessionStorage.setItem('token', token);
         console.log('Token saved successfully');
         router.push('/');
       } else {
@@ -55,7 +71,7 @@ const LogInForm: React.FC = () => {
       }
 
     } catch (err: any) {
-      console.error('login error:', err);
+      console.error('Login error:', err);
       setError(err.message);
     } finally {
       setLoading(false);
@@ -70,32 +86,21 @@ const LogInForm: React.FC = () => {
     }));
   };
 
+  const togglePasswordVisibility = () => {
+    setShowPassword(!showPassword);
+  };
+
   return (
     <div className="login-container">
-      {/* Mobile: Image at the top */}
-      <div className="login-left-mobile">
-        <div className="logo">
-          <Link href="/">3legant.</Link>
-        </div>
-        <div className="background-image-mobile">
-          <Image 
-            src="/Images/char.svg" 
-            alt="Decoration" 
-            fill
-            style={{ objectFit: 'cover' }}
-          />
-        </div>
-      </div>
-
-      {/* Desktop: Image on the left */}
-      <div className="login-left-desktop">
-        <div className="logo">
-          <Link href="/">3legant.</Link>
+      {/* Left side with background image */}
+      <div className="login-left">
+        <div className="logo-container">
+          <Link href="/" className="logo">3legant.</Link>
         </div>
         <div className="background-image">
-          <Image 
-            src="/Images/char.svg" 
-            alt="Decoration" 
+          <Image
+            src="/Images/char.svg"
+            alt="Decoration"
             fill
             style={{ objectFit: 'cover' }}
           />
@@ -130,15 +135,27 @@ const LogInForm: React.FC = () => {
               />
             </div>
 
-            <div className="form-input">
+            <div className="form-input password-input-container">
               <input
-                type="password"
+                type={showPassword ? "text" : "password"}
                 name="password"
                 placeholder="Password"
                 value={formData.password}
                 onChange={handleChange}
                 required
+                className="password-input"
               />
+              <span 
+                className="eye-icon"
+                onClick={togglePasswordVisibility}
+              >
+                <Image 
+                  src="/Images/eye.svg"
+                  alt={showPassword ? "Hide password" : "Show password"}
+                  width={20}
+                  height={20}
+                />
+              </span>
             </div>
 
             <div className="form-options">
