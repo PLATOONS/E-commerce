@@ -27,6 +27,8 @@ const ProductImageGallery: React.FC<ProductImageGalleryProps> = ({
     const goToImage = (index: number) => {
         setCurrentImageIndex(index)
     }
+
+    // Scroll automático de thumbnail seleccionado
     useEffect(() => {
         const container = thumbnailsRef.current
         if (!container) return
@@ -50,7 +52,7 @@ const ProductImageGallery: React.FC<ProductImageGalleryProps> = ({
 
     return (
         <div className="h-[414px] sm:h-[919px] w-[311px] sm:w-[549px] max-w-4xl mx-auto px-2 sm:px-4">
-            {/* Main Image Container */}
+            {/* Imagen principal */}
             <div className="relative">
                 <img
                     src={imagesUrl[currentImageIndex]}
@@ -58,7 +60,7 @@ const ProductImageGallery: React.FC<ProductImageGalleryProps> = ({
                     className="h-[414px] sm:h-[728px] w-[311px] sm:w-[547px] object-cover rounded-none shadow-md"
                 />
 
-                {/* Navigation Arrows */}
+                {/* Flechas de navegación */}
                 {imagesUrl.length > 1 && (
                     <>
                         <button
@@ -117,11 +119,12 @@ const ProductImageGallery: React.FC<ProductImageGalleryProps> = ({
                 </div>
             </div>
 
-
+            {/* Thumbnails: solo sm+, carrusel, scrollbar oculto */}
             {imagesUrl.length > 1 && (
                 <div
                     ref={thumbnailsRef}
-                    className="hidden sm:flex gap-2 mt-3 overflow-x-auto pb-2 scrollbar-none"
+                    className="hidden sm:flex gap-2 mt-3 overflow-x-auto pb-2"
+                    style={{ scrollbarWidth: 'none' }} // Firefox
                 >
                     {imagesUrl.map((url, index) => (
                         <div
@@ -148,6 +151,13 @@ const ProductImageGallery: React.FC<ProductImageGalleryProps> = ({
                             />
                         </div>
                     ))}
+
+                    {/* Ocultar scrollbar en Chrome, Edge y Safari */}
+                    <style jsx>{`
+                        div::-webkit-scrollbar {
+                            display: none;
+                        }
+                    `}</style>
                 </div>
             )}
         </div>
