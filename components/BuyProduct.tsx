@@ -7,6 +7,7 @@ import { useRouter } from 'next/navigation'
 import ColorPickerSelector from './ColorPickerSelector'
 import ColorPicker from '@/types/ColorPicker'
 import { validateJWT } from '@/utils/jwtUtils'
+import { addProductToCart } from '@/services/productService'
 
 export default function BuyProduct({
   productId,
@@ -22,7 +23,7 @@ export default function BuyProduct({
   const [quantity, setQuantity] = useState<number>(quantityProp)
   const router = useRouter()
 
-  const onClick = () => {
+  const onClick = async () => {
     // Check if the user is logged in, redirect to log in page if not
     const token = window.sessionStorage.getItem('token')
 
@@ -33,7 +34,12 @@ export default function BuyProduct({
       return
     }
 
-    // TODO: make API call for adding to cart
+    const res = await addProductToCart(productId, quantity, selected || 'red')
+
+    if (!res.ok) {
+      window.alert("Couldn't add product to cart")
+      return
+    }
 
     router.replace('/checkout?page=0')
   }
