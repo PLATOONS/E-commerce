@@ -4,6 +4,7 @@ import Footer from '@/components/Footer'
 import ReviewsSection from '@/components/ReviewSection'
 import PriceComponent from '@/components/PriceComponent'
 import BuyProduct from '@/components/BuyProduct'
+import ProductImageGallery from '@/components/ProductImageGallery'
 import { fetchProduct } from '@/services/productService'
 import product from '@/types/Product'
 import placeholder from '@/public/Images/placeholder.png'
@@ -43,6 +44,9 @@ export default async function Home({
       }
     })
 
+  // Placeholder images to the gallery
+  const galleryImages: string[] = data.productImages.map(img => img.imageUrl || placeholder.src)
+
   return (
     <div>
       <Header />
@@ -50,7 +54,13 @@ export default async function Home({
         className='px-6 py-10 space-y-12 mx-4 
       md:flex md:flex-row'
       >
-        <div className='w-full sm:w-5xl'>{/* Image gallery goes here */}</div>
+        <div className='w-full sm:w-5xl'>{
+          <ProductImageGallery
+            imagesUrl={galleryImages}
+            isNew={true || false}
+            discountPercentage={data.discount || 0}
+          />
+        }</div>
         <div className='w-full'>
           <PriceComponent
             price={data.price}
