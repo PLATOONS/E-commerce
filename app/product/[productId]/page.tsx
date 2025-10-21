@@ -5,6 +5,8 @@ import ReviewsSection from '@/components/ReviewSection'
 import PriceComponent from '@/components/PriceComponent'
 import BuyProduct from '@/components/BuyProduct'
 import ProductImageGallery from '@/components/ProductImageGallery'
+import ProductDescription from '@/components/Description'
+import ProductMetaData from '@/components/MetaData'
 import { fetchProduct } from '@/services/productService'
 import product from '@/types/Product'
 import placeholder from '@/public/Images/placeholder.png'
@@ -32,36 +34,43 @@ export default async function Home({
 
   const data: product = await res.json()
 
+  // Procesar imágenes del producto
   const options = data.productImages
-    .filter(
-      // Removes non color images
-      (i) => i.color
-    )
-    .map((o) => {
-      return {
-        ...o,
-        imageUrl: placeholder.src, // Use a placeholder until we have the infraestructure
-      }
-    })
+    .filter((i) => i.color)
+    .map((o) => ({
+      ...o,
+      imageUrl: placeholder.src, // Placeholder temporal
+    }))
 
-  // Placeholder images to the gallery
-  const galleryImages: string[] = data.productImages.map(img => img.imageUrl || placeholder.src)
+  const galleryImages: string[] = data.productImages.map(
+    (img) => img.imageUrl || placeholder.src
+  )
 
   return (
     <div>
       <Header />
       <main
         className='px-6 py-10 space-y-12 mx-4 
-      md:flex md:flex-row'
+        md:flex md:flex-row md:space-x-8 md:space-y-0'
       >
-        <div className='w-full sm:w-5xl'>{
+        {/* Galería de imágenes */}
+        <div className='w-full md:w-1/2'>
           <ProductImageGallery
             imagesUrl={galleryImages}
             isNew={true || false}
             discountPercentage={data.discount || 0}
           />
-        }</div>
-        <div className='w-full'>
+        </div>
+
+        {/* Información del producto */}
+        <div className='w-full md:w-1/2 flex flex-col space-y-6'>
+          {/* Nombre + descripción */}
+          <ProductDescription name={data.name} description={data.description} />
+
+          {/* Metadata: SKU y categoría */}
+          <ProductMetaData SKU={data.productId} category={data.category} />
+
+          {/* Precio y botón de compra */}
           <PriceComponent
             price={data.price}
             discounted_amount={data.discountAmount}
