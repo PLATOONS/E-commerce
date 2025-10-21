@@ -21,4 +21,28 @@ async function fetchProductsPage(
   return fetch(url)
 }
 
-export { fetchProduct, fetchProductsPage }
+async function addProductToCart(
+  productId: string,
+  quantity: number,
+  color: string
+) {
+  const response = await fetch(
+    `${process.env.NEXT_PUBLIC_API_URL}/orderProduct`,
+    {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        Authorization: `Bearer ${window.sessionStorage.getItem('token')}`,
+      },
+      body: JSON.stringify({
+        productId,
+        quantity,
+        color,
+      }),
+    }
+  )
+
+  return response
+}
+
+export { fetchProduct, fetchProductsPage, addProductToCart }
