@@ -3,6 +3,7 @@ import ProductCard, { ProductCardData } from "./ProductCard";
 
 export type ApiProduct = {
   productId: string;
+  reviews: number;
   productName: string;
   price: number;
   discountPercentage?: number | null;
@@ -31,6 +32,7 @@ async function getProducts(): Promise<ProductCardData[]> {
       : "/Images/placeholder.png";
     return {
       productId: p.productId,
+      reviews: p.reviews,
       name: p.productName,
       price: p.price,
       discountPercentage: p.discountPercentage ?? null,
