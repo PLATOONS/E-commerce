@@ -1,5 +1,6 @@
 "use client";
 import React, { useMemo, useState } from "react";
+import defaultProfilePicture from '@/public/Images/default_profile_picture.png'
 
 type ReviewComponentProps = {
   reviewId: number;
@@ -68,7 +69,7 @@ const ReviewComponent: React.FC<ReviewComponentProps> = ({
       <div className="grid grid-cols-[72px,1fr] gap-6">
         {/* Avatar */}
         <img
-          src={profilePictureUrl}
+          src={profilePictureUrl || defaultProfilePicture.src}
           alt={`${username} profile picture`}
           width={72}
           height={72}

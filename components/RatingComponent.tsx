@@ -28,7 +28,7 @@ const Rating: React.FC<RatingProps> = ({rate, reviews}) => {
       ))}
       {reviews !== null && (
         <span className="ml-2 text-sm text-gray-600">
-          ({reviews} {reviews === 1 ? 'reseña' : 'reseñas'})
+          ({reviews} {reviews === 1 ? 'review' : 'reviews'})
         </span>
       )}
     </div>
