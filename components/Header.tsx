@@ -48,7 +48,10 @@ const Header: React.FC = () => {
             <Image src="/Images/user.svg" alt="User" width={24} height={24} />
           </Link>
           <div className="icon_with_badge">
-            <Image src="/Images/cart.svg" alt="Cart" width={24} height={24} />
+            {/* 🔹 bolsita desktop -> /cart */}
+            <Link href="/cart" aria-label="Abrir carrito">
+              <Image src="/Images/cart.svg" alt="Cart" width={24} height={24} />
+            </Link>
             {cartCount > 0 && (
               <span className="cart-badge">{cartCount}</span>
             )}
@@ -69,7 +72,10 @@ const Header: React.FC = () => {
           <div className="user_icons_mobile">
             <Image src="/Images/search.svg" alt="Search" width={24} height={24} />
             <div className="icon_with_badge">
-              <Image src="/Images/cart.svg" alt="Cart" width={24} height={24} />
+              {/* 🔹 bolsita mobile top -> /cart */}
+              <Link href="/cart" aria-label="Abrir carrito">
+                <Image src="/Images/cart.svg" alt="Cart" width={24} height={24} />
+              </Link>
               {cartCount > 0 && (
                 <span className="cart-badge">{cartCount}</span>
               )}
@@ -109,7 +115,10 @@ const Header: React.FC = () => {
                 <div className="option_2">
                   <a href="#">Cart</a>
                   <div className="icon_with_badge">
-                    <Image src="/Images/cart.svg" alt="Cart" width={24} height={24} />
+                    {/* 🔹 bolsita dentro del flyout -> /cart */}
+                    <Link href="/cart" aria-label="Abrir carrito">
+                      <Image src="/Images/cart.svg" alt="Cart" width={24} height={24} />
+                    </Link>
                     {cartCount > 0 && (
                       <span className="cart-badge">{cartCount}</span>
                     )}
