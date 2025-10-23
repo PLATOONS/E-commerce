@@ -160,7 +160,7 @@ export default function OrderHistory() {
                       <td className="px-4 py-3">
                         <span className="rounded-full bg-gray-100 px-2 py-1 text-xs text-gray-700">{o.status}</span>
                       </td>
-                      <td className="px-4 py-3 text-right font-medium">{money(o.totalPrice)}</td>
+                      <td className="px-4 py-3 text-right font-medium">{money(o.total)}</td>
                       <td className="px-4 py-3 text-right">
                         <button onClick={() => toggle(o.id)} className="rounded border px-3 py-1 text-sm hover:bg-gray-50">
                           {isOpen ? 'Hide details' : 'Details'}
