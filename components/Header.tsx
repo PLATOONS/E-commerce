@@ -48,10 +48,11 @@ const Header: React.FC = () => {
             <Image src="/Images/user.svg" alt="User" width={24} height={24} />
           </Link>
           <div className="icon_with_badge">
-            <Image src="/Images/cart.svg" alt="Cart" width={24} height={24} />
-            {cartCount > 0 && (
-              <span className="cart-badge">{cartCount}</span>
-            )}
+            {/* 🔹 bolsita desktop -> /checkout */}
+            <Link href="/checkout" aria-label="Abrir carrito">
+              <Image src="/Images/cart.svg" alt="Cart" width={24} height={24} />
+            </Link>
+            {cartCount > 0 && <span className="cart-badge">{cartCount}</span>}
           </div>
         </div>
       </header>
@@ -60,8 +61,8 @@ const Header: React.FC = () => {
       <header className="mobile_header">
         <div className="principal_header">
           <div className="main_title">
-            <button 
-              id="menu_toggle_on" 
+            <button
+              id="menu_toggle_on"
               onClick={() => setIsMenuOpen(true)}
             ></button>
             <p id="first_title">3legant.</p>
@@ -69,10 +70,11 @@ const Header: React.FC = () => {
           <div className="user_icons_mobile">
             <Image src="/Images/search.svg" alt="Search" width={24} height={24} />
             <div className="icon_with_badge">
-              <Image src="/Images/cart.svg" alt="Cart" width={24} height={24} />
-              {cartCount > 0 && (
-                <span className="cart-badge">{cartCount}</span>
-              )}
+              {/* 🔹 bolsita mobile top -> /checkout */}
+              <Link href="/checkout" aria-label="Abrir carrito">
+                <Image src="/Images/cart.svg" alt="Cart" width={24} height={24} />
+              </Link>
+              {cartCount > 0 && <span className="cart-badge">{cartCount}</span>}
             </div>
           </div>
         </div>
@@ -84,7 +86,7 @@ const Header: React.FC = () => {
               <div className="first_menu">
                 <div className="second_title">
                   <p id="sec_title">3legant.</p>
-                  <button 
+                  <button
                     id="menu_toggle_off"
                     onClick={() => setIsMenuOpen(false)}
                   ></button>
@@ -109,10 +111,11 @@ const Header: React.FC = () => {
                 <div className="option_2">
                   <a href="#">Cart</a>
                   <div className="icon_with_badge">
-                    <Image src="/Images/cart.svg" alt="Cart" width={24} height={24} />
-                    {cartCount > 0 && (
-                      <span className="cart-badge">{cartCount}</span>
-                    )}
+                    {/* 🔹 bolsita dentro del flyout -> /checkout */}
+                    <Link href="/checkout" aria-label="Abrir carrito">
+                      <Image src="/Images/cart.svg" alt="Cart" width={24} height={24} />
+                    </Link>
+                    {cartCount > 0 && <span className="cart-badge">{cartCount}</span>}
                   </div>
                 </div>
                 <div className="option_2">

@@ -45,4 +45,23 @@ async function addProductToCart(
   return response
 }
 
-export { fetchProduct, fetchProductsPage, addProductToCart }
+async function updateQuantityInCart(productId: string, quantity: number) {
+  const response = await fetch(
+    `${process.env.NEXT_PUBLIC_API_URL}/orderProduct/quantity`,
+    {
+      method: 'PATCH',
+      headers: {
+        'Content-Type': 'application/json',
+        Authorization: `Bearer ${window.sessionStorage.getItem('token')}`,
+      },
+      body: JSON.stringify({
+        productId,
+        quantity,
+      }),
+    }
+  )
+
+  return response
+}
+
+export { fetchProduct, fetchProductsPage, addProductToCart, updateQuantityInCart }
