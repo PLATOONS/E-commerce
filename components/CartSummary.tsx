@@ -2,6 +2,7 @@
 
 import React from "react"
 import { useRouter } from "next/navigation" // App Router
+import { validateJWT } from "@/utils/jwtUtils"
 
 interface CartSummaryProps {
     subtotal: number
@@ -20,6 +21,11 @@ const CartSummary: React.FC<CartSummaryProps> = ({ subtotal }) => {
     const total = subtotal + shippingCost
 
     const handleCheckout = () => {
+        if(!validateJWT(sessionStorage.getItem('token'))){
+            router.push("/login")
+            return
+        }
+
         // Redirect to checkout page with query params
         router.push(`/checkout?page=1&shipping=${shipping}`)
     }

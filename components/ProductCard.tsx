@@ -50,23 +50,23 @@ export default function ProductCard({
     };
   }, [data.price, data.discountPercentage, data.discountedPrice]);
 
-  const handleAddToCart = async () => {
-    if (adding) return;
-    try {
-      setAdding(true);
-      const res = await fetch("/api/v1/productOrder", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ productId: data.productId, quantity: 1 }),
-      });
-      if (!res.ok) throw new Error(`add to cart failed: ${res.status}`);
-      onAddedToCart?.(data.productId);
-    } catch (e) {
-      console.error(e);
-    } finally {
-      setAdding(false);
-    }
-  };
+  // const handleAddToCart = async () => {
+  //   if (adding) return;
+  //   try {
+  //     setAdding(true);
+  //     const res = await fetch("/api/v1/productOrder", {
+  //       method: "POST",
+  //       headers: { "Content-Type": "application/json" },
+  //       body: JSON.stringify({ productId: data.productId, quantity: 1 }),
+  //     });
+  //     if (!res.ok) throw new Error(`add to cart failed: ${res.status}`);
+  //     onAddedToCart?.(data.productId);
+  //   } catch (e) {
+  //     console.error(e);
+  //   } finally {
+  //     setAdding(false);
+  //   }
+  // };
 
   return (
     <div className={`carousel-item ${className ?? ""}`}>
@@ -87,9 +87,9 @@ export default function ProductCard({
         />
       </Link>
 
-      <button className="add-button" onClick={handleAddToCart} disabled={adding}>
+      {/* <button className="add-button" onClick={handleAddToCart} disabled={adding}>
         {adding ? "Adding..." : "Add to cart"}
-      </button>
+      </button> */}
 
       <div className="details">
         <Rating rate={data.rating} reviews={data.reviews} />

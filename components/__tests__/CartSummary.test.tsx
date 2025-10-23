@@ -1,6 +1,12 @@
 import { render, screen } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
-import CartSummary from '@/components/CartSummary';
+import CartSummary from '../CartSummary';
+
+
+// Mock validateJWT to always return true
+jest.mock('../../utils/jwtUtils', () => ({
+  validateJWT: jest.fn(() => true),
+}));
 
 // Mock Next.js useRouter
 const pushMock = jest.fn();
