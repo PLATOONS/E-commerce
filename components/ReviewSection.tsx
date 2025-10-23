@@ -1,36 +1,26 @@
 "use client";
-import React, { useState } from "react";
-import ReviewComponent from "@/components/ReviewComponent";
-
-type ReviewItem = {
-  reviewId: number;
-  username: string;
-  profilePictureUrl: string;
-  rating: number;
-  content: string;
-};
+import React, { useState, useEffect } from "react";
+import ReviewForm from "./ReviewForm";
+import ReviewList from "./ReviewList";
+import { validateJWT } from "@/utils/jwtUtils";
 
 type ReviewsSectionProps = {
-  reviews?: ReviewItem[];
-  productId?: string;
-  isLoggedIn?: boolean;
+  productId: string;
 };
 
-const ReviewsSection: React.FC<ReviewsSectionProps> = ({
-  reviews = [],
-  productId,
-  isLoggedIn = false,
-}) => {
+const ReviewsSection: React.FC<ReviewsSectionProps> = ({ productId }) => {
   const [sort, setSort] = useState<"newest" | "highest" | "lowest">("newest");
+  const [totalCount, setTotalCount] = useState<number>(0);
+  const [isLoggedIn, setIsLoggedIn] = useState<boolean>(false);
 
-  const totalCount = reviews.length;
+  useEffect(() => {
+    const token = sessionStorage.getItem("token");
+    if (token) {
+      setIsLoggedIn(validateJWT(token));
+    }
+  }, []);
+
   const countLabel = `${totalCount} Review${totalCount === 1 ? "" : "s"}`;
-
-  const sorted = [...reviews].sort((a, b) => {
-    if (sort === "highest") return b.rating - a.rating;
-    if (sort === "lowest") return a.rating - b.rating;
-    return b.reviewId - a.reviewId; // pretend id ≈ recency
-  });
 
   return (
     <section className="mx-auto w-full max-w-5xl px-6">
@@ -57,21 +47,13 @@ const ReviewsSection: React.FC<ReviewsSectionProps> = ({
         </label>
       </div>
 
-      {/* List */}
-      <div>
-        {sorted.map((r) => (
-          <ReviewComponent
-            key={r.reviewId}
-            reviewId={r.reviewId}
-            username={r.username}
-            profilePictureUrl={r.profilePictureUrl}
-            rating={r.rating}
-            content={r.content}
-            productId={productId ?? ""}
-            isLoggedIn={isLoggedIn}
-          />
-        ))}
-      </div>
+      <ReviewForm productId={productId} />
+      <ReviewList
+        productId={productId}
+        sort={sort}
+        isLoggedIn={isLoggedIn}
+        setTotalCount={setTotalCount}
+      />
     </section>
   );
 };

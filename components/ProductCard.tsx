@@ -3,10 +3,11 @@ import Image from "next/image";
 import Link from "next/link";
 import { useMemo, useState } from "react";
 import Wishlist from "./Wishlist";
-import { addProductToCart } from "@/services/productService";
+import Rating from "./RatingComponent";
 
 export type ProductCardData = {
   productId: string;
+  reviews: number;
   price: number;
   discountPercentage?: number | null;
   discountedPrice?: number | null;
@@ -91,10 +92,7 @@ export default function ProductCard({
       </button> */}
 
       <div className="details">
-        <div className="rating" aria-label={`${data.rating} out of 5`}>
-          {"★★★★★".slice(0, Math.round(data.rating))}
-          {"☆☆☆☆☆".slice(0, 5 - Math.round(data.rating))}
-        </div>
+        <Rating rate={data.rating} reviews={data.reviews} />
         <h2>{data.name}</h2>
         <p className="price">
           <span>${finalPrice.toFixed(2)}</span>
