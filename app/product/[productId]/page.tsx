@@ -70,7 +70,6 @@ export default async function Home({
           {/* Metadata: SKU y categoría */}
           <ProductMetaData SKU={data.productId} category={data.category} />
 
-          {/* Precio y botón de compra */}
           <PriceComponent
             price={data.price}
             discounted_amount={data.discountAmount}
@@ -83,7 +82,7 @@ export default async function Home({
           />
         </div>
       </main>
-      <ReviewsSection />
+      <ReviewsSection productId={data.productId} />
       <NewsletterSection />
       <Footer />
     </div>
