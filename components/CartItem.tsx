@@ -47,7 +47,7 @@ type Props = {
   onRemoved?: () => void;
 };
 
-export default function CartItem({
+export default function CartItemComponent({
   productId,
   productName,
   price,
