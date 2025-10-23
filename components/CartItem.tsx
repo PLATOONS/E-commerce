@@ -1,160 +1,186 @@
-"use client";
+'use client';
 
-import React, { useMemo, useState } from "react";
+import { updateQuantityInCart } from '@/services/productService';
+import { useState } from 'react';
 
+/* ============ API base + headers ============ */
+const API_ROOT: string | undefined = process.env.NEXT_PUBLIC_API_URL
+
+function getAuthHeaders(): Record<string, string> {
+  const token =
+    (typeof window !== 'undefined' &&
+      (sessionStorage.getItem('token') || localStorage.getItem('token'))) ||
+    '';
+  const base = { 'Content-Type': 'application/json', Accept: 'application/json' };
+  if (!token) return base;
+  return {
+    ...base,
+    Authorization: ` Bearer ${token}` 
+  };
+}
+
+/* ============ llamadas a la API del ítem ============ */
+async function apiPatchQty(productId: string, nextQty: number): Promise<boolean> {
+  // Variante 1: query param (?quantity=Q)
+  const token = sessionStorage.getItem('token')
+  const urlQP = `${API_ROOT}/orderProduct/quantity`;
+  const resQP = await fetch(urlQP, { method: 'PATCH', headers: {'Content-Type': "application/json", Authorization: `Bearer ${token}` }, body: JSON.stringify({productId: productId, quantity: nextQty}) });
+  return resQP.ok
+}
+
+async function apiDelete(productId: string): Promise<boolean> {
+  const url = `${API_ROOT}/orderProduct/${encodeURIComponent(productId)}`;
+  const res = await fetch(url, { method: 'DELETE', headers: getAuthHeaders() });
+  return res.ok;
+}
+
+/* ============ tipos + componente ============ */
 type Props = {
-  /** MUY IMPORTANTE: este NO es el id del producto,
-   *  es el id del item en el carrito (productOrder / orderProduct). */
-  orderItemId: string;                    // <—— usa este id para PATCH/DELETE
+  productId: string;
   productName: string;
-  price: number;                          // unitario con descuento
-  color: string;
+  price: number;          // unitario
+  color?: string | null;
   quantity: number;
   isSmall?: boolean;
-  imageUrl?: string;
-  currency?: string;                      // "USD" por defecto
-  onQuantityChange?: (qty: number) => void;
+  imageUrl?: string | null;
+  onChanged?: (q: number) => void;
   onRemoved?: () => void;
 };
 
-// Si definís NEXT_PUBLIC_API_URL, usa absoluta; si no, va relativa.
-const BASE =
-  (typeof window !== "undefined" && process.env.NEXT_PUBLIC_API_URL?.replace(/\/$/, "")) || "";
-const apiUrl = (path: string) => (BASE ? `${BASE}${path}` : path);
-
-// cambia acá si tu backend usa 'orderProduct' en vez de 'productOrder'
-const RESOURCE = process.env.NEXT_PUBLIC_CART_RESOURCE ?? "productOrder";
-
-const money = (v: number, c = "USD") =>
-  new Intl.NumberFormat("en-US", { style: "currency", currency: c }).format(v);
-
 export default function CartItem({
-  orderItemId,
+  productId,
   productName,
   price,
   color,
   quantity,
-  isSmall = true,
+  isSmall = false,
   imageUrl,
-  currency = "USD",
-  onQuantityChange,
+  onChanged,
   onRemoved,
 }: Props) {
-  const [qty, setQty] = useState(quantity);
-  const [busy, setBusy] = useState(false);
-  const [removing, setRemoving] = useState(false);
+  const [qty, setQty] = useState<number>(quantity);
+  const [pending, setPending] = useState<boolean>(false);
 
-  const unit = useMemo(() => money(price, currency), [price, currency]);
-  const subtotal = useMemo(() => money(price * qty, currency), [price, qty, currency]);
+  const unit = Number.isFinite(price) ? price : 0;
+  const subtotal = unit * qty;
 
-  async function changeQty(newQty: number) {
-    if (newQty < 1 || newQty > 999 || newQty === qty) return;
-
-    const prev = qty;
-    setQty(newQty); // optimista
-    onQuantityChange?.(newQty);
-    setBusy(true);
-
+  const change = async (next: number) => {
+    if (next === qty) return;
+    setPending(true);
     try {
-      const res = await fetch(apiUrl(`/api/v1/${RESOURCE}/${orderItemId}`), {
-        method: "PATCH",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ quantity: newQty }),
-        cache: "no-store",
-        // credentials: "include",
-      });
-      if (!res.ok) throw new Error(`PATCH failed: ${res.status}`);
-    } catch (e) {
-      console.error(e);
-      setQty(prev); // rollback
-      onQuantityChange?.(prev);
-      alert("No se pudo actualizar la cantidad.");
+      const ok = await updateQuantityInCart(productId, next);
+      if (!ok) {
+        alert('No se pudo actualizar la cantidad.');
+        return;
+      }
+      setQty(next);
+      onChanged?.(next);
     } finally {
-      setBusy(false);
+      setPending(false);
     }
-  }
+  };
 
-  async function removeItem() {
-    if (!confirm("¿Eliminar este producto del carrito?")) return;
-
-    setRemoving(true);
+  const remove = async () => {
+    setPending(true);
     try {
-      const res = await fetch(apiUrl(`/api/v1/${RESOURCE}/${orderItemId}`), {
-        method: "DELETE",
-        cache: "no-store",
-        // credentials: "include",
-      });
-      if (!res.ok) throw new Error(`DELETE failed: ${res.status}`);
+      const ok = await apiDelete(productId);
+      if (!ok) {
+        alert('No se pudo eliminar el producto.');
+        return;
+      }
       onRemoved?.();
-    } catch (e) {
-      console.error(e);
-      alert("No se pudo eliminar el producto.");
     } finally {
-      setRemoving(false);
+      setPending(false);
     }
-  }
+  };
 
-  const btn = "h-8 w-8 rounded border border-gray-300 text-sm disabled:opacity-40 disabled:cursor-not-allowed";
-  const box = "min-w-10 h-8 px-2 border border-gray-300 rounded text-sm grid place-items-center";
-  const card = "relative w-full rounded-lg border bg-white/80 backdrop-blur-sm shadow-sm";
-  const pad = isSmall ? "p-3" : "p-4";
-  const row = isSmall ? "flex gap-3 items-start" : "flex gap-4 items-center";
+  const Qty = (
+    <div className="flex items-center gap-2">
+      <button
+        type="button"
+        onClick={() => change(Math.max(1, qty - 1))}
+        disabled={pending || qty <= 1}
+        className="px-3 py-1 border rounded hover:bg-gray-50 disabled:opacity-50"
+        aria-label="Reducir cantidad"
+      >
+        −
+      </button>
+      <span className="w-8 text-center">{qty}</span>
+      <button
+        type="button"
+        onClick={() => change(Math.min(99, qty + 1))}
+        disabled={pending || qty >= 99}
+        className="px-3 py-1 border rounded hover:bg-gray-50 disabled:opacity-50"
+        aria-label="Aumentar cantidad"
+      >
+        +
+      </button>
+    </div>
+  );
 
-  return (
-    <div className={`${card} ${pad}`}>
-      {/* Imagen */}
-      <div className={isSmall ? "w-14 h-14" : "w-20 h-20"}>
-        <div className="w-full h-full overflow-hidden rounded-md border bg-gray-50 grid place-items-center">
+  if (isSmall) {
+    // Small / mobile
+    return (
+      <div className="flex items-center justify-between rounded-lg border p-4">
+        <div className="flex items-center gap-3">
           {imageUrl ? (
             // eslint-disable-next-line @next/next/no-img-element
-            <img src={imageUrl} alt={productName} className="w-full h-full object-cover" />
+            <img src={imageUrl} alt={productName} className="w-16 h-16 object-cover rounded-md border" />
           ) : (
-            <div className="text-xs text-gray-400">No image</div>
+            <div className="w-16 h-16 rounded-md bg-gray-100 border grid place-items-center text-xs text-gray-400">No Image</div>
           )}
+          <div>
+            <p className="font-medium">{productName}</p>
+            {color ? <p className="text-sm text-gray-500">Color: {color}</p> : null}
+          </div>
+        </div>
+
+        <div className="flex items-center gap-4">
+          <span className="font-medium">${unit.toFixed(2)}</span>
+          {Qty}
+          <button
+            type="button"
+            onClick={remove}
+            disabled={pending}
+            className="ml-2 text-gray-400 hover:text-red-600 disabled:opacity-50"
+            aria-label="Eliminar"
+            title="Eliminar"
+          >
+            ×
+          </button>
+        </div>
+      </div>
+    );
+  }
+
+  // Big / desktop
+  return (
+    <div className="flex items-center justify-between rounded-lg border p-4">
+      <div className="flex items-center gap-4">
+        {imageUrl ? (
+          // eslint-disable-next-line @next/next/no-img-element
+          <img src={imageUrl} alt={productName} className="w-16 h-16 object-cover rounded-md border" />
+        ) : (
+          <div className="w-16 h-16 rounded-md bg-gray-100 border grid place-items-center text-xs text-gray-400">No Image</div>
+        )}
+        <div>
+          <p className="font-medium">{productName}</p>
+          {color ? <p className="text-sm text-gray-500">Color: {color}</p> : null}
+          <button
+            type="button"
+            onClick={remove}
+            disabled={pending}
+            className="mt-1 text-sm text-gray-500 hover:text-red-600 disabled:opacity-50"
+          >
+            × Remove
+          </button>
         </div>
       </div>
 
-      {/* Info + controles */}
-      <div className={`flex-1 ${row}`}>
-        <div className="flex-1 min-w-0">
-          <div className="flex items-start justify-between">
-            <div className="min-w-0">
-              <h3 className={`truncate ${isSmall ? "text-sm" : "text-base"} font-semibold`}>{productName}</h3>
-              <p className="text-xs text-gray-500">Color: {color}</p>
-            </div>
-            {isSmall && <span className="ml-3 text-sm font-semibold">{unit}</span>}
-          </div>
-
-          {/* Controles small */}
-          {isSmall && (
-            <div className="mt-2 flex items-center justify-between">
-              <div className="flex items-center gap-2">
-                <button className={btn} disabled={busy || qty <= 1} onClick={() => changeQty(qty - 1)} aria-label="Disminuir">–</button>
-                <div className={box}>{qty}</div>
-                <button className={btn} disabled={busy} onClick={() => changeQty(qty + 1)} aria-label="Aumentar">+</button>
-              </div>
-              <button onClick={removeItem} disabled={removing} aria-label="Quitar" className="p-2 text-gray-400 hover:text-gray-600 disabled:opacity-40">✕</button>
-            </div>
-          )}
-        </div>
-
-        {/* Controles big */}
-        {!isSmall && (
-          <>
-            <div className="flex items-center gap-2">
-              <button className={btn} disabled={busy || qty <= 1} onClick={() => changeQty(qty - 1)} aria-label="Disminuir">–</button>
-              <div className={box}>{qty}</div>
-              <button className={btn} disabled={busy} onClick={() => changeQty(qty + 1)} aria-label="Aumentar">+</button>
-            </div>
-            <div className="w-24 text-center text-sm text-gray-800">{unit}</div>
-            <div className="w-24 text-center font-semibold">{subtotal}</div>
-            <div className="w-28">
-              <button onClick={removeItem} disabled={removing} className="text-sm text-gray-500 hover:text-gray-700 underline disabled:opacity-40">
-                Remove
-              </button>
-            </div>
-          </>
-        )}
+      <div className="flex items-center gap-6">
+        {Qty}
+        <div className="w-20 text-right text-gray-700">${unit.toFixed(2)}</div>
+        <div className="w-24 text-right font-semibold">${subtotal.toFixed(2)}</div>
       </div>
     </div>
   );

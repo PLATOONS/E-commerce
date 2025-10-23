@@ -20,6 +20,7 @@ async function getProducts(): Promise<ProductCardData[]> {
     `${process.env.NEXT_PUBLIC_API_URL}/product?page=0&size=10&sort=createdAt,desc`,
     { cache: "no-store" }
   );
+  console.log(res)
   if (!res.ok) throw new Error("Failed products");
 
   const data: PageResponse = await res.json();
