@@ -4,6 +4,8 @@ import React, { useState } from 'react';
 import { useRouter } from 'next/navigation';
 import Link from 'next/link';
 import Image from 'next/image';
+import Char from '@/public/Images/Char.svg'
+import Eye from '@/public/Images/eye.svg'
 
 const SignUpForm: React.FC = () => {
   const router = useRouter();
@@ -95,7 +97,7 @@ const SignUpForm: React.FC = () => {
         </div>
         <div className="background-image">
           <Image
-            src="/Images/char.svg"
+            src={Char}
             alt="Decoration"
             fill
             style={{ objectFit: 'cover' }}
@@ -180,7 +182,7 @@ const SignUpForm: React.FC = () => {
                 onClick={togglePasswordVisibility}
               >
                 <Image 
-                  src="/Images/eye.svg"
+                  src={Eye}
                   alt={showPassword ? "Hide password" : "Show password"}
                   width={20}
                   height={20}
