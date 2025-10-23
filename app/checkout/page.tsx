@@ -1,5 +1,10 @@
-import CartItem from "@/components/CartItem";
+import Checkout from '@/components/Checkout'
+import { Suspense } from 'react'
 
 export default function CheckoutPage() {
-  return <CartItem productId={"prood001"} productName={"name"} price={0} quantity={1} />
+  return (
+    <Suspense fallback={<div className='text-center py-10'>Loading...</div>}>
+      <Checkout />
+    </Suspense>
+  )
 }

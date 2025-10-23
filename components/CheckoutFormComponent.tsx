@@ -1,10 +1,11 @@
 "use client";
 import React, { useState } from "react";
 import { useRouter } from "next/navigation";
+import CheckoutFormData from "@/types/CheckoutFormData";
 
-function CheckoutFormComponent() {
+function CheckoutFormComponent({onSubmit}: {onSubmit: (formData: CheckoutFormData) => Promise<Response>}) {
   const router = useRouter();
-  const [formData, setFormData] = useState({
+  const [formData, setFormData] = useState<CheckoutFormData>({
     firstName: "",
     lastName: "",
     phone: "",
@@ -28,17 +29,18 @@ function CheckoutFormComponent() {
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
+
     try {
-      const res = await fetch("/api/v1/payment", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(formData),
-      });
-      console.log("Payment response:", await res.json());
+      const res = await onSubmit(formData);
+
+      if(!res.ok)
+        throw new Error(await res.text())
+
+      console.log('Payment response:', await res.json())
     } catch (error) {
-      console.error("Payment request failed:", error);
+      console.error('Payment request failed:', error)
     } finally {
-      router.push("/checkout?page=2");
+      router.push('/checkout?page=2')
     }
   };
 
