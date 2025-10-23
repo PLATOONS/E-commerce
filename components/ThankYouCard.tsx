@@ -2,14 +2,10 @@
 
 import React from 'react'
 import { useRouter } from 'next/navigation'
-
-interface Product {
-    imageUrl: string
-    quantity: number
-}
+import CartItem from '@/types/CartItem'
 
 interface ThankYouCardProps {
-    products: Product[]
+    products: CartItem[]
     orderCode: string
     date: Date
     total: number
