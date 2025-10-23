@@ -1,4 +1,6 @@
-function validateJWT(token: string): boolean {
+function validateJWT(token: string | null): boolean {
+  if (!token) return false
+
   try {
     const [, payloadBase64] = token.split('.')
     if (!payloadBase64) return false
