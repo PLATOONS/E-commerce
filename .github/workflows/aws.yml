@@ -17,6 +17,7 @@ env:
   CONTAINER_NAME: FrontendContainer
   IMAGE_TAG: ${{ github.sha }}
   IMAGE_URI: ${{ secrets.AWS_ACCOUNT_ID }}.dkr.ecr.${{ secrets.AWS_REGION }}.amazonaws.com/${{ secrets.ECR_REPOSITORY }}
+  NEXT_PUBLIC_API_URL: ${{ secrets.FRONTEND_API_URL }} # URL de backend (ALB BE)
 
 jobs:
   deploy:
@@ -60,11 +61,17 @@ jobs:
             --task-definition "$TD_ARN" \
             --query 'taskDefinition' > current-td.json
 
-      - name: Prepare new Task Definition with new image
+      - name: Prepare new Task Definition with new image and API URL
         run: |
-          jq --arg IMG "${IMAGE_URI}:${IMAGE_TAG}" --arg NAME "${CONTAINER_NAME}" '
+          jq --arg IMG "${IMAGE_URI}:${IMAGE_TAG}" \
+             --arg NAME "${CONTAINER_NAME}" \
+             --arg API "${NEXT_PUBLIC_API_URL}" '
             .containerDefinitions = (.containerDefinitions | map(
-              if .name == $NAME then .image = $IMG | . else . end
+              if .name == $NAME then
+                .image = $IMG |
+                .environment += [{"name": "API_BASE_URL", "value": $API}]
+              else .
+              end
             ))
             | del(.taskDefinitionArn, .revision, .status, .requiresAttributes, .compatibilities,
                   .registeredAt, .registeredBy)' current-td.json > new-td.json
