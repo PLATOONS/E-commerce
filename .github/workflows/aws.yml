@@ -17,7 +17,7 @@ env:
   CONTAINER_NAME: FrontendContainer
   IMAGE_TAG: ${{ github.sha }}
   IMAGE_URI: ${{ secrets.AWS_ACCOUNT_ID }}.dkr.ecr.${{ secrets.AWS_REGION }}.amazonaws.com/${{ secrets.ECR_REPOSITORY }}
-  NEXT_PUBLIC_API_URL: ${{ secrets.FRONTEND_API_URL }} # URL de backend (ALB BE)
+  NEXT_PUBLIC_API_URL: ${{ secrets.NEXT_PUBLIC_API_URL }} # URL de backend (ALB BE)
 
 jobs:
   deploy:
