@@ -1,7 +1,7 @@
 # syntax=docker.io/docker/dockerfile:1
 FROM node:20-alpine AS base
 
-# Install dependencies
+# Dependencias
 FROM base AS deps
 RUN apk add --no-cache libc6-compat
 WORKDIR /app
@@ -13,7 +13,7 @@ RUN \
   else echo "Lockfile not found." && exit 1; \
   fi
 
-# Build project
+# Build
 FROM base AS builder
 WORKDIR /app
 COPY --from=deps /app/node_modules ./node_modules
@@ -25,26 +25,24 @@ RUN \
   else echo "Lockfile not found." && exit 1; \
   fi
 
-# Production image
+# Imagen de producción
 FROM node:20-alpine AS runner
 WORKDIR /app
-
 ENV NODE_ENV=production
 ENV PORT=3000
-ENV HOSTNAME="0.0.0.0"
+ENV HOSTNAME=0.0.0.0
 
-# User
+# Crear usuario no root
 RUN addgroup --system --gid 1001 nodejs
 RUN adduser --system --uid 1001 nextjs
 
-# Copy files from builder
+# Copiar build
 COPY --from=builder /app/public ./public
 COPY --from=builder --chown=nextjs:nodejs /app/.next/standalone ./
 COPY --from=builder --chown=nextjs:nodejs /app/.next/static ./.next/static
 
-# Set variable at runtime from ECS API_BASE_URL
-# This will allow Next.js to see it
-ENTRYPOINT ["/bin/sh", "-c", "export NEXT_PUBLIC_API_URL=${API_BASE_URL} && exec node server.js"]
+# Entrypoint ajustado para recibir API_BASE_URL de ECS
+ENTRYPOINT ["sh", "-c", "export NEXT_PUBLIC_API_URL=${API_BASE_URL} && exec node server.js"]
 
 USER nextjs
 EXPOSE 3000
