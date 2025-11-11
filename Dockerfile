@@ -15,6 +15,8 @@ RUN \
 
 # Build
 FROM base AS builder
+ARG NEXT_PUBLIC_API_URL
+ENV NEXT_PUBLIC_API_URL=${NEXT_PUBLIC_API_URL}
 WORKDIR /app
 COPY --from=deps /app/node_modules ./node_modules
 COPY . .
@@ -41,8 +43,8 @@ COPY --from=builder /app/public ./public
 COPY --from=builder --chown=nextjs:nodejs /app/.next/standalone ./
 COPY --from=builder --chown=nextjs:nodejs /app/.next/static ./.next/static
 
-# Entrypoint ajustado para recibir API_BASE_URL de ECS
-ENTRYPOINT ["sh", "-c", "export NEXT_PUBLIC_API_URL=${API_BASE_URL} && exec node server.js"]
+# Entrypoint
+CMD ["node", "server.js"]
 
 USER nextjs
 EXPOSE 3000
