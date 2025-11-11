@@ -63,6 +63,7 @@ jobs:
 
       - name: Prepare new Task Definition with new image and API URL
         run: |
+          echo "NEXT_PUBLIC_API_URL=$NEXT_PUBLIC_API_URL"
           jq --arg IMG "${IMAGE_URI}:${IMAGE_TAG}" \
              --arg NAME "${CONTAINER_NAME}" \
              --arg API "${NEXT_PUBLIC_API_URL}" '
