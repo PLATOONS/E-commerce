@@ -1,6 +1,6 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
-  // ...si ya tienes otras opciones, déjalas aquí
+  output: 'standalone'
   async rewrites() {
     const base = process.env.NEXT_PUBLIC_API_URL;
     // Solo proxea en desarrollo y si hay base definida
