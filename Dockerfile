@@ -15,8 +15,6 @@ RUN \
 
 # Build
 FROM base AS builder
-ARG NEXT_PUBLIC_API_URL
-ENV NEXT_PUBLIC_API_URL=${NEXT_PUBLIC_API_URL}
 WORKDIR /app
 COPY --from=deps /app/node_modules ./node_modules
 COPY . .
@@ -33,6 +31,9 @@ WORKDIR /app
 ENV NODE_ENV=production
 ENV PORT=3000
 ENV HOSTNAME=0.0.0.0
+ARG NEXT_PUBLIC_API_URL
+ENV NEXT_PUBLIC_API_URL=${NEXT_PUBLIC_API_URL}
+RUN echo "NEXT_PUBLIC_API_URL is set to ${NEXT_PUBLIC_API_URL}"
 
 # Crear usuario no root
 RUN addgroup --system --gid 1001 nodejs
