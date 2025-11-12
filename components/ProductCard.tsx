@@ -80,7 +80,7 @@ export default function ProductCard({
       <Link href={`/product/${data.productId}`} aria-label={`Open ${data.name}`}>
         <Image
           src={data.imageUrl}
-          alt={data.imageName || data.name}
+          alt={data.imageName || data.name || data.productId}
           width={600}
           height={600}
           className="w-24 h-24"

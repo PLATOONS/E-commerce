@@ -64,15 +64,16 @@ export default function ProductGrid({
             ...prev,
             ...data.content.map((d: ApiProduct) => ({
               productId: d.productId,
-              name: d.productName,
+              name: d.name,
               price: d.price,
               discountPercentage: d.discountPercentage ?? null,
               discountedPrice: d.discountedPrice ?? null,
-              rating: d.rating ?? 0,
+              rating: d.ratingAverage ?? 0,
               wishlisted: !!d.wishlisted,
               imageUrl: placeholder.src,
-              imageName: d.productName,
+              imageName: d.name,
               createdAt: d.createdAt,
+              reviews: d.reviewCount,
             })),
           ])
         })
@@ -85,15 +86,16 @@ export default function ProductGrid({
             ...prev,
             ...data.content.map((d: ApiProduct) => ({
               productId: d.productId,
-              name: d.productName,
+              name: d.name,
               price: d.price,
               discountPercentage: d.discountPercentage ?? null,
               discountedPrice: d.discountedPrice ?? null,
-              rating: d.rating ?? 0,
+              rating: d.ratingAverage ?? 0,
               wishlisted: !!d.wishlisted,
               imageUrl: placeholder.src,
-              imageName: d.productName,
+              imageName: d.name,
               createdAt: d.createdAt,
+              reviews: d.reviewCount,
             })),
           ])
         })

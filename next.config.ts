@@ -14,6 +14,16 @@ const nextConfig = {
     }
     return [];
   },
+  images: {
+    remotePatterns: [
+      {
+        protocol: 'https',
+        hostname: process.env.BUCKET_HOST,
+        port: '',
+        pathname: '/**',
+      },
+    ],
+  },
 };
 
 module.exports = nextConfig;

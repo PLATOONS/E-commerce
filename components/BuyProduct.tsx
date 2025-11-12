@@ -27,8 +27,6 @@ export default function BuyProduct({
     // Check if the user is logged in, redirect to log in page if not
     const token = window.sessionStorage.getItem('token')
 
-    console.log(token)
-
     if (!token || !validateJWT(token)) {
       router.replace('/login')
       return

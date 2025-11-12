@@ -130,14 +130,14 @@ export default function CartItemComponent({
             <div className="w-16 h-16 rounded-md bg-gray-100 border grid place-items-center text-xs text-gray-400">No Image</div>
           )}
           <div>
-            <p className="font-medium">{productName}</p>
+            <p className="text-xs font-medium">{productName}</p>
             {color ? <p className="text-sm text-gray-500">Color: {color}</p> : null}
+            {Qty}
           </div>
         </div>
 
-        <div className="flex items-center gap-4">
-          <span className="font-medium">${unit.toFixed(2)}</span>
-          {Qty}
+        <div className="flex flex-col items-start gap-2">
+          <span className="text-xs font-medium">${unit.toFixed(2)}</span>
           <button
             type="button"
             onClick={remove}

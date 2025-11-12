@@ -81,7 +81,7 @@ const ThankYouCard: React.FC<ThankYouCardProps> = ({
                 onClick={handleGoToHistory}
                 className="mt-4 w-[280px] h-[52px] bg-gray-900 hover:bg-gray-900 text-white font-semibold py-2 px-4 rounded-[80px] transition-colors mx-auto block"
             >
-                Purchaise history
+                Purchase history
             </button>
         </div>
     )

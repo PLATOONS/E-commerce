@@ -3,12 +3,12 @@ import ProductCard, { ProductCardData } from "./ProductCard";
 
 export type ApiProduct = {
   productId: string;
-  reviews: number;
-  productName: string;
+  reviewCount: number;
+  name: string;
   price: number;
   discountPercentage?: number | null;
   discountedPrice?: number | null;
-  rating?: number | null;
+  ratingAverage?: number | null;
   wishlisted?: boolean | null;
   imageUrl?: string | null;
   createdAt?: string;
@@ -21,7 +21,6 @@ async function getProducts(): Promise<ProductCardData[]> {
     `${process.env.NEXT_PUBLIC_API_URL}/product?page=0&size=10&sort=createdAt,desc`,
     { cache: "no-store" }
   );
-  console.log(res)
   if (!res.ok) throw new Error("Failed products");
 
   const data: PageResponse = await res.json();
@@ -33,15 +32,15 @@ async function getProducts(): Promise<ProductCardData[]> {
       : "/Images/placeholder.png";
     return {
       productId: p.productId,
-      reviews: p.reviews,
-      name: p.productName,
+      reviews: p.reviewCount,
+      name: p.name,
       price: p.price,
       discountPercentage: p.discountPercentage ?? null,
       discountedPrice: p.discountedPrice ?? null,
-      rating: p.rating ?? 0,
+      rating: p.ratingAverage ?? 0,
       wishlisted: !!p.wishlisted,
       imageUrl: img,
-      imageName: p.productName,
+      imageName: p.name,
       createdAt: p.createdAt,
     };
   });
