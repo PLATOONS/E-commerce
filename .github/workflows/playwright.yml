@@ -21,10 +21,7 @@ jobs:
     - name: Wait for Deployed API
       run: |
         npm install -g wait-on
-        # Espera a la URL real de tu backend.
-        # Asegúrate de que este endpoint exista y responda con 200 OK.
-        # Usa un endpoint simple como /health o /api/v1/status si lo tienes.
-        wait-on ${{ secrets.NEXT_PUBLIC_API_URL }}/api/v1/auth --timeout 120000
+        wait-on ${{ secrets.NEXT_PUBLIC_API_URL }} --timeout 120000
       env:
         NEXT_PUBLIC_API_URL: ${{ secrets.NEXT_PUBLIC_API_URL }}
 
