@@ -41,7 +41,7 @@ jobs:
         env: 
           BUCKET_HOST: ${{ secrets.STAGING_BUCKET_HOST }}
         run: |
-          docker build --build-arg NEXT_PUBLIC_API_URL=${NEXT_PUBLIC_API_URL} -t ${IMAGE_URI}:${IMAGE_TAG} -t ${IMAGE_URI}:latest .
+          docker build --build-arg NEXT_PUBLIC_API_URL=${NEXT_PUBLIC_API_URL} --build-arg STAGING_BUCKET_NAME={{ secret.STAGING_BUCKET_NAME }} -t ${IMAGE_URI}:${IMAGE_TAG} -t ${IMAGE_URI}:latest .
 
       - name: Push image to ECR
         run: |
