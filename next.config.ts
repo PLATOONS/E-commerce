@@ -1,4 +1,13 @@
 /** @type {import('next').NextConfig} */
+const bucket_pattern = process.env.BUCKET_HOST
+  ? {
+      protocol: "https",
+      hostname: process.env.BUCKET_HOST,
+      port: "",
+      pathname: "/**",
+    }
+  : null;
+
 const nextConfig = {
   output: 'standalone',
   async rewrites() {
@@ -16,12 +25,7 @@ const nextConfig = {
   },
   images: {
     remotePatterns: [
-      {
-        protocol: 'https',
-        hostname: process.env.BUCKET_HOST,
-        port: '',
-        pathname: '/**',
-      },
+      bucket_pattern
     ],
   },
 };
