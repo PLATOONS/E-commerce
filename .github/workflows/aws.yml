@@ -38,6 +38,8 @@ jobs:
         uses: aws-actions/amazon-ecr-login@v2
 
       - name: Build Docker image (Next.js)
+        env: 
+          BUCKET_HOST: ${{ secrets.STAGING_BUCKET_HOST }}
         run: |
           docker build --build-arg NEXT_PUBLIC_API_URL=${NEXT_PUBLIC_API_URL} -t ${IMAGE_URI}:${IMAGE_TAG} -t ${IMAGE_URI}:latest .
 
