@@ -20,10 +20,18 @@ jobs:
       run: npx playwright install --with-deps
     - name: Wait for Deployed API
       run: |
-        echo "Intentando conectar a la API en ${{ secrets.NEXT_PUBLIC_API_URL }}"
-          # -v (verbose) muestra todo
-          # -L (location) sigue redireccionamientos (ej. 301, 302)
-          curl -v -L ${{ secrets.NEXT_PUBLIC_API_URL }}
+        echo "Esperando a que la API responda en ${{ secrets.NEXT_PUBLIC_API_URL }}"
+          
+          # 'timeout' fallará después de 120 segundos
+          # 'until' seguirá intentando el comando 'curl' hasta que tenga éxito
+          timeout 120 bash -c ' \
+            until curl -s -L --output /dev/null ${{ secrets.NEXT_PUBLIC_API_URL }}; \
+            do \
+              echo "API no responde (o está arrancando), esperando 5s más..."; \
+              sleep 5; \
+            done'
+            
+          echo "¡API detectada! Continuando..."
       env:
         NEXT_PUBLIC_API_URL: ${{ secrets.NEXT_PUBLIC_API_URL }}
 
