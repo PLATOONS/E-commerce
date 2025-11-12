@@ -37,10 +37,6 @@ export default async function Home({
   // Procesar imágenes del producto
   const options = data.productImages
     .filter((i) => i.color)
-    .map((o) => ({
-      ...o,
-      imageUrl: placeholder.src, // Placeholder temporal
-    }))
 
   const galleryImages: string[] = data.productImages.map(
     (img) => img.imageUrl || placeholder.src

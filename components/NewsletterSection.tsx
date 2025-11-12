@@ -3,7 +3,7 @@ import Link from "next/link";
 
 const NewsletterSection: React.FC = () =>{
     return(
-        <section className="Newsletter">
+        <section className="Newsletter mt-3">
             <form action="" className="NL">
                 <h2 className="nl_title">Join Our Newsletter</h2>
                 <h4 className="nl_subtitle">Sign up for deals, new products and promotions</h4>

@@ -14,6 +14,8 @@ import CartItemComponent from './CartItem'
 
 export default function Checkout() {
   const [products, setProducts] = useState<Array<CartItemType>>([])
+  // avoid reading `window` during server render
+  const [screenWidth, setScreenWidth] = useState(0);
 
   const searchParams = useSearchParams()
   const pageParam = searchParams.get('page')
@@ -29,6 +31,7 @@ export default function Checkout() {
         const res = await fetchCartProducts()
         const items = await res.json()
         if (mounted && items) setProducts(items)
+          console.log(items);
       } catch (err) {
         // swallow or handle fetch error as needed
         console.error('Failed to load cart products', err)
@@ -38,6 +41,23 @@ export default function Checkout() {
     return () => {
       mounted = false
     }
+  }, [])
+
+  useEffect(() => {
+    const handleResize = () => {
+      setScreenWidth(window.innerWidth);
+    };
+
+    // Add event listener for window resize
+    window.addEventListener('resize', handleResize);
+
+    // set initial width on mount (safe because this effect runs only on the client)
+    if (typeof window !== 'undefined') handleResize();
+
+    // Clean up the event listener on component unmount
+    return () => {
+      window.removeEventListener('resize', handleResize);
+    };
   }, [])
 
   // compute subtotal from products (fallback to 0)
@@ -63,7 +83,7 @@ export default function Checkout() {
     <div className='flex flex-col'>
       <Stepper state={state} />
       {state === 0 ? (
-        <div className='flex flex-row gap-12 mx-8 justify-center my-8'>
+        <div className='flex flex-col md:flex-row gap-12 mx-8 justify-center my-8'>
           <div className='space-y-2'>
             {products.map((p, i) => (
               <CartItemComponent
@@ -73,6 +93,8 @@ export default function Checkout() {
                 price={p.price}
                 quantity={p.quantity}
                 color={p.color}
+                imageUrl={p.imageUrl}
+                isSmall={screenWidth < 768}
               />
             ))}
           </div>
