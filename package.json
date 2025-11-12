@@ -3,11 +3,14 @@
   "version": "0.1.0",
   "private": true,
   "scripts": {
-    "dev": "next dev --turbopack",
-    "build": "next build --turbopack",
-    "start": "next start",
-    "test": "jest"
-  },
+  "dev": "next dev --turbopack",
+  "build": "next build --turbopack",
+  "start": "next start",
+  "test": "jest",
+  "test:e2e": "playwright test",
+  "test:e2e:ui": "playwright test --ui"
+}
+,
   "dependencies": {
     "lucide-react": "^0.546.0",
     "next": "15.5.2",
