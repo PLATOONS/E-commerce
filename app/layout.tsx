@@ -1,7 +1,11 @@
 import type { Metadata } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
-import "../Frontend/styles.css"; // Import Styles from the original mock-up
+import Script from "next/script";
+
+import "../Frontend/styles.css";
 import "../styles/global.css";
+
+import GTMPageView from "./gtm-pageview"; 
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -23,12 +27,42 @@ export default function RootLayout({
 }: Readonly<{
   children: React.ReactNode;
 }>) {
+  const GTM_ID = process.env.NEXT_PUBLIC_GTM_ID;
+  const isProd = process.env.NODE_ENV === "production";
+
   return (
     <html lang="en">
-      <body
-        className={`${geistSans.variable} ${geistMono.variable} antialiased`}
-      >
+      <head>
+        {/* GTM (head) */}
+        {isProd && GTM_ID && (
+          <Script id="gtm-head" strategy="afterInteractive">
+            {`
+              (function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
+              new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
+              j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
+              'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
+              })(window,document,'script','dataLayer','${GTM_ID}');
+            `}
+          </Script>
+        )}
+      </head>
+      <body className={`${geistSans.variable} ${geistMono.variable} antialiased`}>
+        
+        {isProd && GTM_ID && (
+          <noscript
+            dangerouslySetInnerHTML={{
+              __html: `
+                <iframe src="https://www.googletagmanager.com/ns.html?id=${GTM_ID}"
+                  height="0" width="0" style="display:none;visibility:hidden"></iframe>
+              `,
+            }}
+          />
+        )}
+
         {children}
+
+        {/* Pageviews SPA: empuja 'pageview' a dataLayer en cada cambio de ruta */}
+        {isProd && GTM_ID && <GTMPageView />}
       </body>
     </html>
   );
