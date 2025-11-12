@@ -20,8 +20,10 @@ jobs:
       run: npx playwright install --with-deps
     - name: Wait for Deployed API
       run: |
-        npm install -g wait-on
-        wait-on ${{ secrets.NEXT_PUBLIC_API_URL }} --timeout 120000
+        echo "Intentando conectar a la API en ${{ secrets.NEXT_PUBLIC_API_URL }}"
+          # -v (verbose) muestra todo
+          # -L (location) sigue redireccionamientos (ej. 301, 302)
+          curl -v -L ${{ secrets.NEXT_PUBLIC_API_URL }}
       env:
         NEXT_PUBLIC_API_URL: ${{ secrets.NEXT_PUBLIC_API_URL }}
 
