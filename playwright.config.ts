@@ -6,7 +6,7 @@ export default defineConfig({
   projects: [{ name: 'chromium', use: { ...devices['Desktop Chrome'] } }],
   webServer: {
     command: process.env.CI
-      ? 'NEXT_PUBLIC_API_URL=http://localhost:8000/api/v1 npm run build && NEXT_PUBLIC_API_URL=http://localhost:8000/api/v1 npm run start'
+      ? 'NEXT_PUBLIC_API_URL=http://localhost:8000/api/v1 npm run build && NEXT_PUBLIC_API_URL=http://localhost:8000/api/v1 node .next/standalone/server.js' // <--- ¡CAMBIO AQUÍ!
       : 'NEXT_PUBLIC_API_URL=http://localhost:8000/api/v1 npm run dev',
     url: 'http://127.0.0.1:3000',
     reuseExistingServer: !process.env.CI,
