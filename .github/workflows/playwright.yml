@@ -40,6 +40,7 @@ jobs:
       env:
         CI: true
         NEXT_PUBLIC_API_URL: ${{ secrets.NEXT_PUBLIC_API_URL }}
+        BUCKET_HOST: ${{ secrets.STAGING_BUCKET_HOST }}
 
     - uses: actions/upload-artifact@v4
       if: ${{ !cancelled() }}
