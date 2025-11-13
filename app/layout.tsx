@@ -1,61 +1,74 @@
 // app/layout.tsx
-import type { Metadata } from "next";
-import Script from "next/script";
+import type { Metadata } from 'next';
+import './globals.css';
+import Script from 'next/script';
 
-// (deja estas importaciones si ya existen en tu proyecto)
-import "../Frontend/styles.css";
-import "../styles/global.css";
-
-import GTMPageView from "./gtm-pageview";
+const GA_ID = (process.env.NEXT_PUBLIC_GA_ID ?? 'G-XXXXXXXXXX').trim();
 
 export const metadata: Metadata = {
-  title: "E-commerce",
-  description: "Store",
+  title: 'Tu App',
+  description: '...',
 };
 
-export default function RootLayout({
-  children,
-}: Readonly<{ children: React.ReactNode }>) {
-  const GTM_ID = process.env.NEXT_PUBLIC_GTM_ID;
-  // Enable GTM in production, or in dev if the flag is set
-  const enableGTM =
-    process.env.NODE_ENV === "production" ||
-    process.env.NEXT_PUBLIC_ENABLE_GTM === "true";
-
+export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
-    <html lang="en">
-      <head>
-        {/* GTM container (loads the GTM script and creates dataLayer) */}
-        {enableGTM && GTM_ID ? (
-          <Script id="gtm-head" strategy="afterInteractive">
-            {`
-              (function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
-              new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
-              j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
-              'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
-              })(window,document,'script','dataLayer','${GTM_ID}');
-            `}
-          </Script>
-        ) : null}
-      </head>
+    <html lang="es">
+      <body>
+        {/* --- GA4: carga del script --- */}
+        {GA_ID && (
+          <>
+            <Script
+              id="ga4-src"
+              strategy="afterInteractive"
+              src={`https://www.googletagmanager.com/gtag/js?id=${GA_ID}`}
+            />
+            <Script id="ga4-init" strategy="afterInteractive">
+              {`
+                window.dataLayer = window.dataLayer || [];
+                function gtag(){dataLayer.push(arguments);}
+                window.gtag = gtag;
+                gtag('js', new Date());
+                gtag('config', '${GA_ID}', { anonymize_ip: true });
+              `}
+            </Script>
 
-      <body className="antialiased">
-        {/* GTM noscript fallback (required by GTM) */}
-        {enableGTM && GTM_ID ? (
-          <noscript
-            dangerouslySetInnerHTML={{
-              __html: `
-                <iframe src="https://www.googletagmanager.com/ns.html?id=${GTM_ID}"
-                  height="0" width="0" style="display:none;visibility:hidden"></iframe>
-              `,
-            }}
-          />
-        ) : null}
+            {/* --- GA4: pageviews en cambios de ruta (SPA) sin componentes extra --- */}
+            <Script id="ga4-route-listener" strategy="afterInteractive">
+              {`
+                (function(){
+                  var GA_ID='${GA_ID}';
+                  if(!GA_ID) return;
+
+                  var lastPath = location.pathname + location.search;
+
+                  function track(){
+                    var p = location.pathname + location.search;
+                    if(p === lastPath) return;
+                    lastPath = p;
+                    if (window.gtag) window.gtag('config', GA_ID, { page_path: p });
+                  }
+
+                  ['pushState','replaceState'].forEach(function(type){
+                    var orig = history[type];
+                    history[type] = function(){
+                      var rv = orig.apply(this, arguments);
+                      window.dispatchEvent(new Event('locationchange'));
+                      return rv;
+                    }
+                  });
+
+                  window.addEventListener('popstate', function(){
+                    window.dispatchEvent(new Event('locationchange'));
+                  });
+
+                  window.addEventListener('locationchange', track);
+                })();
+              `}
+            </Script>
+          </>
+        )}
 
         {children}
-
-        {/* Push SPA page_view on every route change */}
-        {enableGTM && GTM_ID ? <GTMPageView /> : null}
       </body>
     </html>
   );
