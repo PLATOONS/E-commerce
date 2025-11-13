@@ -12,5 +12,7 @@ describe('AddToCart Button', () => {
 
     // Assert that it exists in the document
     expect(button).toBeInTheDocument()
+
+    expect(false).toBe(true)
   })
 })
